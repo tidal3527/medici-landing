@@ -29,7 +29,7 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4">Platform</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">
                   How It Works
                 </Link>
               </li>
@@ -39,7 +39,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="#faq" className="text-muted-foreground hover:text-foreground transition-colors">
                   FAQ
                 </Link>
               </li>
