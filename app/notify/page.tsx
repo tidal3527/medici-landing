@@ -63,6 +63,7 @@ export default function NotifyPage() {
 
       if (response.ok) {
         setIsSubmitted(true)
+        window.scrollTo({ top: 0, behavior: "smooth" })
       }
     } catch (error) {
       console.error("Error submitting form:", error)

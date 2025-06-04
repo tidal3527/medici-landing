@@ -14,7 +14,7 @@ import { useDebounce } from "@/hooks/use-debounce"
 import { Layout } from "@/components/layout"
 
 const studentTexts = [
-  "Get Help Paying for College",
+  "Get Started",
 ]
 
 interface University {
@@ -53,6 +53,10 @@ export default function StudentPage() {
   })
   const [errors, setErrors] = useState({
     email: "",
+    name: "",
+    university: "",
+    fieldOfStudy: "",
+    degree: "",
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -61,6 +65,11 @@ export default function StudentPage() {
 
   const debouncedUniversitySearch = useDebounce(formData.university, 300)
   const universityInputRef = useRef<HTMLInputElement>(null)
+
+  // Refs for form fields to scroll to them when there are errors
+  const nameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const fieldOfStudyRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -138,6 +147,14 @@ export default function StudentPage() {
     }))
     setUserSelectedUniversity(false)
     setShowUniversities(true)
+    
+    // Clear university error when user starts typing
+    if (errors.university) {
+      setErrors(prev => ({
+        ...prev,
+        university: ''
+      }))
+    }
   }
 
   const handleManualUniversityInput = () => {
@@ -154,14 +171,40 @@ export default function StudentPage() {
     return emailRegex.test(email)
   }
 
+  const scrollToFirstError = (newErrors: typeof errors) => {
+    // Find the first field with an error and scroll to it
+    if (newErrors.name) {
+      nameRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      nameRef.current?.focus()
+    } else if (newErrors.email) {
+      emailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      emailRef.current?.focus()
+    } else if (newErrors.university) {
+      universityInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      universityInputRef.current?.focus()
+    } else if (newErrors.fieldOfStudy) {
+      fieldOfStudyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      fieldOfStudyRef.current?.focus()
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     
-    // Validate email before submission
-    if (!validateEmail(formData.email)) {
-      setErrors({
-        email: "Please enter a valid email address"
-      })
+    // Validate all required fields (funds requested is optional)
+    const newErrors = {
+      name: !formData.name.trim() ? "Full name is required" : "",
+      email: !formData.email.trim() ? "Email is required" : !validateEmail(formData.email) ? "Please enter a valid email address" : "",
+      university: !formData.university.trim() ? "University is required" : "",
+      fieldOfStudy: !formData.fieldOfStudy.trim() ? "Field of study is required" : "",
+      degree: !formData.degree ? "Degree level is required" : "",
+    }
+
+    setErrors(newErrors)
+
+    // Check if there are any errors
+    if (Object.values(newErrors).some(error => error !== "")) {
+      scrollToFirstError(newErrors)
       return
     }
 
@@ -181,6 +224,7 @@ export default function StudentPage() {
       }
 
       setIsSubmitted(true)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     } catch (error) {
       console.error("Error submitting form:", error)
     } finally {
@@ -195,11 +239,11 @@ export default function StudentPage() {
       [name]: value
     }))
 
-    // Clear email error when user starts typing
-    if (name === 'email') {
+    // Clear errors when user starts typing
+    if (errors[name as keyof typeof errors]) {
       setErrors(prev => ({
         ...prev,
-        email: ''
+        [name]: ''
       }))
     }
   }
@@ -209,6 +253,14 @@ export default function StudentPage() {
       ...formData,
       [name]: value,
     })
+
+    // Clear degree error when user selects a value
+    if (name === 'degree' && errors.degree) {
+      setErrors(prev => ({
+        ...prev,
+        degree: ''
+      }))
+    }
   }
 
   if (isSubmitted) {
@@ -247,21 +299,6 @@ export default function StudentPage() {
             >
               We've received your details and will reach out.
             </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9 }}
-              className="bg-gradient-to-r from-yellow-400/20 to-orange-500/20 border border-yellow-400/30 rounded-xl p-4 mb-8"
-            >
-              <div className="flex items-center justify-center space-x-2 mb-2">
-                <Star className="h-5 w-5 text-yellow-600" />
-                <span className="font-semibold text-yellow-700 dark:text-yellow-400">Early Bird Status Confirmed</span>
-              </div>
-              <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                You're now in our priority queue for maximum donor visibility!
-              </p>
-            </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}>
               <Link href="/">
@@ -334,7 +371,8 @@ export default function StudentPage() {
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
               >
-                Medici is currently curating verified student profiles and preparing for launch. If you're enrolled or planning to enroll in a US university and need support with tuition, submit your details. We'll reach out and invite you to create your full profile for donors to choose from and fund.
+                During launch, the default view for donors will show student profiles in order of submission date. Creating your profile early may increase your chances of being seen and funded first.
+
               </motion.p>
             </motion.div>
 
@@ -348,24 +386,15 @@ export default function StudentPage() {
               className="max-w-md mx-auto"
             >
               <Card className="backdrop-blur-xl bg-card/80 border-border/50 shadow-2xl">
-                <CardContent className="p-8">
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-center mb-6"
-                  >
-                    <h2 className="text-2xl font-bold mb-2">Request an Invite</h2>
-                  </motion.div>
-
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                <CardContent className="p-6">
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <motion.div
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: 0.1 }}
                     >
                       <Label htmlFor="name" className="text-sm font-medium">
-                        Full Name
+                        Full Name *
                       </Label>
                       <Input
                         id="name"
@@ -374,9 +403,19 @@ export default function StudentPage() {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="mt-2 h-12"
+                        className={`mt-2 h-12 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                         placeholder="Enter your full name"
+                        ref={nameRef}
                       />
+                      {errors.name && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-sm text-red-500 mt-1"
+                        >
+                          {errors.name}
+                        </motion.p>
+                      )}
                     </motion.div>
 
                     <motion.div
@@ -385,7 +424,7 @@ export default function StudentPage() {
                       transition={{ duration: 0.3, delay: 0.2 }}
                     >
                       <Label htmlFor="email" className="text-sm font-medium">
-                        Email Address
+                        Email Address *
                       </Label>
                       <Input
                         id="email"
@@ -396,6 +435,7 @@ export default function StudentPage() {
                         onChange={handleChange}
                         className={`mt-2 h-12 ${errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                         placeholder="Enter your email"
+                        ref={emailRef}
                       />
                       {errors.email && (
                         <motion.p
@@ -414,7 +454,7 @@ export default function StudentPage() {
                       transition={{ duration: 0.3, delay: 0.3 }}
                       className="relative"
                     >
-                      <Label htmlFor="university">University</Label>
+                      <Label htmlFor="university">University *</Label>
                       <div className="relative">
                         <Input
                           type="text"
@@ -423,7 +463,7 @@ export default function StudentPage() {
                           value={formData.university}
                           onChange={handleUniversityChange}
                           placeholder="Search for your university..."
-                          className="w-full h-12 mt-2"
+                          className={`w-full h-12 mt-2 ${errors.university ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                           autoComplete="off"
                           ref={universityInputRef}
                         />
@@ -433,6 +473,16 @@ export default function StudentPage() {
                           </div>
                         )}
                       </div>
+                      
+                      {errors.university && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-sm text-red-500 mt-1"
+                        >
+                          {errors.university}
+                        </motion.p>
+                      )}
                       
                       {showUniversities && universities.length > 0 && !formData.isManualUniversity && (
                         <div className="absolute z-10 w-full mt-1 bg-background border rounded-md shadow-lg max-h-60 overflow-auto">
@@ -470,7 +520,7 @@ export default function StudentPage() {
                       transition={{ duration: 0.3, delay: 0.4 }}
                     >
                       <Label htmlFor="fieldOfStudy" className="text-sm font-medium">
-                        Field of Study
+                        Field of Study *
                       </Label>
                       <Input
                         id="fieldOfStudy"
@@ -479,9 +529,19 @@ export default function StudentPage() {
                         required
                         value={formData.fieldOfStudy}
                         onChange={handleChange}
-                        className="mt-2 h-12"
+                        className={`mt-2 h-12 ${errors.fieldOfStudy ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                         placeholder="e.g., Computer Science"
+                        ref={fieldOfStudyRef}
                       />
+                      {errors.fieldOfStudy && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-sm text-red-500 mt-1"
+                        >
+                          {errors.fieldOfStudy}
+                        </motion.p>
+                      )}
                     </motion.div>
 
                     <motion.div
@@ -490,13 +550,13 @@ export default function StudentPage() {
                       transition={{ duration: 0.3, delay: 0.5 }}
                     >
                       <Label htmlFor="degree" className="text-sm font-medium">
-                        Degree Level
+                        Degree Level *
                       </Label>
                       <Select 
                         value={formData.degree}
                         onValueChange={(value) => handleSelectChange("degree", value)}
                       >
-                        <SelectTrigger className="mt-2 h-12">
+                        <SelectTrigger className={`mt-2 h-12 ${errors.degree ? 'border-red-500 focus-visible:ring-red-500' : ''}`}>
                           <SelectValue placeholder="Select degree level" />
                         </SelectTrigger>
                         <SelectContent>
@@ -507,6 +567,15 @@ export default function StudentPage() {
                           <SelectItem value="certificate">Certificate Program</SelectItem>
                         </SelectContent>
                       </Select>
+                      {errors.degree && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-sm text-red-500 mt-1"
+                        >
+                          {errors.degree}
+                        </motion.p>
+                      )}
                     </motion.div>
 
                     <motion.div
@@ -515,14 +584,12 @@ export default function StudentPage() {
                       transition={{ duration: 0.3, delay: 0.6 }}
                     >
                       <Label htmlFor="fundsRequested" className="text-sm font-medium">
-                        Funds Requested (USD)
+                        Funds Requested (USD) <span className="text-muted-foreground">(Optional)</span>
                       </Label>
                       <Input
                         id="fundsRequested"
                         name="fundsRequested"
                         type="number"
-                        required
-                        min="1000"
                         value={formData.fundsRequested}
                         onChange={handleChange}
                         className="mt-2 h-12"

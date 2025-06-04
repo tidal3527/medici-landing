@@ -17,7 +17,7 @@ model Student {
   university    String
   fieldOfStudy  String
   degree        String
-  fundsRequested Float
+  fundsRequested Float?
   country       String
 }
 

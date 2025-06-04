@@ -75,7 +75,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-          © 2025 Medici. All rights reserved. Funding done securely via blockchain.
+          © 2025 Medici. All rights reserved.
         </div>
       </div>
     </footer>
