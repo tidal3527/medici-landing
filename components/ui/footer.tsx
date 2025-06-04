@@ -43,6 +43,11 @@ export function Footer() {
                   FAQ
                 </Link>
               </li>
+              <li>
+                <Link href="/privacypolicy" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -80,4 +85,4 @@ export function Footer() {
       </div>
     </footer>
   )
-} 
+}

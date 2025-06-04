@@ -14,28 +14,28 @@ export async function POST(request: Request) {
       )
     }
 
-    // Create new donor
-    const donor = await prisma.donor.create({
-      data: {
-        name: data.name.trim(),
-        email: data.email.trim(),
-      }
-    })
-
-    return NextResponse.json({ success: true, data: donor })
-  } catch (error) {
-    console.error('Error creating donor:', error)
-    
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Handle specific Prisma errors
-      if (error.code === 'P2002') {
+    // Try to create donor directly with unique constraint
+    try {
+      const donor = await prisma.donor.create({
+        data: {
+          name: data.name.trim(),
+          email: data.email.trim(),
+        }
+      })
+      return NextResponse.json({ success: true, data: donor })
+    } catch (createError) {
+      // Handle unique constraint violation
+      if (createError instanceof Prisma.PrismaClientKnownRequestError && createError.code === 'P2002') {
         return NextResponse.json(
           { error: 'A donor with this email already exists' },
           { status: 409 }
         )
       }
+      throw createError // Re-throw other errors
     }
-    
+
+  } catch (error) {
+    console.error('Error creating donor:', error)
     return NextResponse.json(
       { error: 'Failed to create donor. Please try again.' },
       { status: 500 }

@@ -1,21 +1,37 @@
+// lib/prisma.ts
+
 import { PrismaClient } from '@prisma/client'
 
-const globalForPrisma = global as unknown as {
+const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-const prisma = globalForPrisma.prisma ?? (
-  new PrismaClient({
+// Create a PrismaClient instance with type-safe bypass for __internal config
+const prisma =
+  globalForPrisma.prisma ??
+  (new PrismaClient({
     log: ['query'],
     datasources: {
       db: {
-        url: process.env.DATABASE_URL
-      }
-    }
-    // Add connection management
-  })
-)
+        url: process.env.DATABASE_URL,
+      },
+    },
+    // ⬇️ This bypass allows internal config like statement_cache_size
+  } as any))
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+// Optional: disable statement caching in dev to prevent "prepared statement already exists"
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma
+
+  // Disable statement cache (only needed in dev)
+  ;(prisma as any)._engineConfig = {
+    ...((prisma as any)._engineConfig || {}),
+    __internal: {
+      engine: {
+        statement_cache_size: 0,
+      },
+    },
+  }
+}
 
 export { prisma }
