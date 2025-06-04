@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const data = await request.json()
     
-    // Basic validation - fundsRequested is now optional
+    // Basic validation
     if (!data.name || !data.email || !data.university || !data.fieldOfStudy || !data.degree || !data.country) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -14,36 +14,45 @@ export async function POST(request: Request) {
       )
     }
 
-    // Prepare the data for database insertion
-    const studentData = {
-      name: data.name.trim(),
-      email: data.email.trim(),
-      university: data.university.trim(),
-      fieldOfStudy: data.fieldOfStudy.trim(),
-      degree: data.degree,
-      country: data.country,
-      ...(data.fundsRequested && data.fundsRequested.trim() !== '' 
-        ? { fundsRequested: parseFloat(data.fundsRequested) } 
-        : {})
-    }
+    // Use a transaction to handle both operations
+    const result = await prisma.$transaction(async (tx) => {
+      // Check if email exists
+      const existingStudent = await tx.student.findUnique({
+        where: {
+          email: data.email.trim()
+        }
+      })
 
-    const student = await prisma.student.create({
-      data: studentData
+      if (existingStudent) {
+        throw new Error('A student with this email already exists')
+      }
+
+      // Create new student
+      return await tx.student.create({
+        data: {
+          name: data.name.trim(),
+          email: data.email.trim(),
+          university: data.university.trim(),
+          fieldOfStudy: data.fieldOfStudy.trim(),
+          degree: data.degree,
+          country: data.country,
+          ...(data.fundsRequested && data.fundsRequested.trim() !== '' 
+            ? { fundsRequested: parseFloat(data.fundsRequested) } 
+            : {})
+        }
+      })
     })
 
-    return NextResponse.json({ success: true, data: student })
+    return NextResponse.json({ success: true, data: result })
 
   } catch (error) {
     console.error('Error creating student:', error)
     
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Handle specific Prisma errors
-      if (error.code === 'P2002') {
-        return NextResponse.json(
-          { error: 'A student with this email already exists' },
-          { status: 409 }
-        )
-      }
+    if (error instanceof Error && error.message === 'A student with this email already exists') {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 409 }
+      )
     }
     
     return NextResponse.json(

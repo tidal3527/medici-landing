@@ -191,9 +191,9 @@ export default function StudentPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setApiError(null) // Clear any previous API errors
+    setApiError(null)
     
-    // Validate all required fields (funds requested is optional)
+    // Validate fields
     const newErrors = {
       name: !formData.name.trim() ? "Full name is required" : "",
       email: !formData.email.trim() ? "Email is required" : !validateEmail(formData.email) ? "Please enter a valid email address" : "",
@@ -204,7 +204,6 @@ export default function StudentPage() {
 
     setErrors(newErrors)
 
-    // Check if there are any errors
     if (Object.values(newErrors).some(error => error !== "")) {
       scrollToFirstError(newErrors)
       return
@@ -224,14 +223,36 @@ export default function StudentPage() {
       const data = await response.json()
 
       if (!response.ok) {
+        if (response.status === 409) {
+          // Handle duplicate email error
+          setErrors(prev => ({
+            ...prev,
+            email: "This email is already registered. Please use a different email."
+          }))
+          emailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          emailRef.current?.focus()
+          return
+        }
         throw new Error(data.error || 'Failed to submit form')
       }
 
+      // Clear form data on successful submission
+      setFormData({
+        name: "",
+        email: "",
+        university: "",
+        fieldOfStudy: "",
+        degree: "",
+        fundsRequested: "",
+        country: "US",
+        isManualUniversity: false
+      })
+
       setIsSubmitted(true)
       window.scrollTo({ top: 0, behavior: "smooth" })
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting form:", error)
-      setApiError("Something went wrong. Please try again or reload the page.")
+      setApiError(error.message || "Something went wrong. Please try again.")
       window.scrollTo({ top: 0, behavior: "smooth" })
     } finally {
       setIsLoading(false)
