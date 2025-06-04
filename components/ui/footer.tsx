@@ -20,7 +20,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-muted-foreground text-base max-w-xs leading-relaxed">
-              A peer-to-peer platform where donors browse verified student profiles and fund their education using USDC on the Solana blockchain.
+              A peer-to-peer platform where donors pick verified students, choose any amount and fund their education securely and directly on the blockchain
             </p>
           </div>
 
