@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 
 export async function POST(request: Request) {
   try {
@@ -18,16 +17,27 @@ export async function POST(request: Request) {
     // Create new donor
     const donor = await prisma.donor.create({
       data: {
-        name: data.name,
-        email: data.email,
+        name: data.name.trim(),
+        email: data.email.trim(),
       }
     })
 
-    return NextResponse.json(donor)
+    return NextResponse.json({ success: true, data: donor })
   } catch (error) {
     console.error('Error creating donor:', error)
+    
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Handle specific Prisma errors
+      if (error.code === 'P2002') {
+        return NextResponse.json(
+          { error: 'A donor with this email already exists' },
+          { status: 409 }
+        )
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to create donor' },
+      { error: 'Failed to create donor. Please try again.' },
       { status: 500 }
     )
   }
@@ -40,11 +50,11 @@ export async function GET() {
         createdAt: 'desc'
       }
     })
-    return NextResponse.json(donors)
+    return NextResponse.json({ success: true, data: donors })
   } catch (error) {
     console.error('Error fetching donors:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch donors' },
+      { error: 'Failed to fetch donors. Please try again.' },
       { status: 500 }
     )
   }

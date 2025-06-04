@@ -62,6 +62,7 @@ export default function StudentPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
   const [userSelectedUniversity, setUserSelectedUniversity] = useState(false)
+  const [apiError, setApiError] = useState<string | null>(null)
 
   const debouncedUniversitySearch = useDebounce(formData.university, 300)
   const universityInputRef = useRef<HTMLInputElement>(null)
@@ -190,6 +191,7 @@ export default function StudentPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setApiError(null) // Clear any previous API errors
     
     // Validate all required fields (funds requested is optional)
     const newErrors = {
@@ -219,14 +221,18 @@ export default function StudentPage() {
         body: JSON.stringify(formData),
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
-        throw new Error('Failed to submit form')
+        throw new Error(data.error || 'Failed to submit form')
       }
 
       setIsSubmitted(true)
       window.scrollTo({ top: 0, behavior: "smooth" })
     } catch (error) {
       console.error("Error submitting form:", error)
+      setApiError("Something went wrong. Please try again or reload the page.")
+      window.scrollTo({ top: 0, behavior: "smooth" })
     } finally {
       setIsLoading(false)
     }
@@ -396,6 +402,24 @@ export default function StudentPage() {
                     </p>
                   </div>
 
+                  {apiError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md"
+                    >
+                      <p className="text-sm text-red-600 text-center">{apiError}</p>
+                      <Button
+                        type="button"
+                        variant="link"
+                        className="mx-auto mt-2 text-red-600 hover:text-red-700"
+                        onClick={() => window.location.reload()}
+                      >
+                        Reload Page
+                      </Button>
+                    </motion.div>
+                  )}
+                  
                   <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                     <motion.div
                       initial={{ opacity: 0, x: -10 }}

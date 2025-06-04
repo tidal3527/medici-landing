@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 
 export async function POST(request: Request) {
   try {
@@ -16,42 +15,39 @@ export async function POST(request: Request) {
     }
 
     // Prepare the data for database insertion
-    const studentData: any = {
+    const studentData = {
       name: data.name.trim(),
       email: data.email.trim(),
       university: data.university.trim(),
       fieldOfStudy: data.fieldOfStudy.trim(),
       degree: data.degree,
-      country: data.country
+      country: data.country,
+      ...(data.fundsRequested && data.fundsRequested.trim() !== '' 
+        ? { fundsRequested: parseFloat(data.fundsRequested) } 
+        : {})
     }
 
-    // Handle fundsRequested - only include if provided and valid
-    if (data.fundsRequested && data.fundsRequested.trim() !== '') {
-      const fundsAmount = parseFloat(data.fundsRequested)
-      
-      // Validate fundsRequested if provided
-      if (isNaN(fundsAmount) || fundsAmount < 0) {
-        return NextResponse.json(
-          { error: 'Invalid funds requested amount' },
-          { status: 400 }
-        )
-      }
-      
-      studentData.fundsRequested = fundsAmount
-    }
-    // If fundsRequested is empty or not provided, we don't include it in the data object
-    // This way Prisma will use the default value or handle it according to your schema
-
-    // Create new student
     const student = await prisma.student.create({
       data: studentData
     })
 
-    return NextResponse.json(student)
+    return NextResponse.json({ success: true, data: student })
+
   } catch (error) {
     console.error('Error creating student:', error)
+    
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Handle specific Prisma errors
+      if (error.code === 'P2002') {
+        return NextResponse.json(
+          { error: 'A student with this email already exists' },
+          { status: 409 }
+        )
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to create student' },
+      { error: 'Failed to create student. Please try again.' },
       { status: 500 }
     )
   }
@@ -64,11 +60,11 @@ export async function GET() {
         createdAt: 'desc'
       }
     })
-    return NextResponse.json(students)
+    return NextResponse.json({ success: true, data: students })
   } catch (error) {
     console.error('Error fetching students:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch students' },
+      { error: 'Failed to fetch students. Please try again.' },
       { status: 500 }
     )
   }
