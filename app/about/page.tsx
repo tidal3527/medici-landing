@@ -7,10 +7,10 @@ import { Layout } from "@/components/layout"
 import type React from "react"
 import type { Metadata } from "next"
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | Medici",
-  description: "Review Medici.ac's privacy policy and data collection practices.",
-}
+// export const metadata: Metadata = {
+//   title: "Privacy Policy | Medici",
+//   description: "Review Medici.ac's privacy policy and data collection practices.",
+// }
 
 export default function PrivacyPolicyPage() {
   return (
