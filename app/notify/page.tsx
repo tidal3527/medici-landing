@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,9 +23,13 @@ export default function NotifyPage() {
   })
   const [errors, setErrors] = useState({
     email: "",
+    name: "",
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+
+  const nameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,14 +43,30 @@ export default function NotifyPage() {
     return emailRegex.test(email)
   }
 
+  const scrollToFirstError = (newErrors: typeof errors) => {
+    if (newErrors.name) {
+      nameRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      nameRef.current?.focus()
+    } else if (newErrors.email) {
+      emailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      emailRef.current?.focus()
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Validate email before submission
-    if (!validateEmail(formData.email)) {
-      setErrors({
-        email: "Please enter a valid email address"
-      })
+    // Validate all fields
+    const newErrors = {
+      name: !formData.name.trim() ? "Full name is required" : "",
+      email: !formData.email.trim() ? "Email is required" : !validateEmail(formData.email) ? "Please enter a valid email address" : "",
+    }
+
+    setErrors(newErrors)
+
+    // Check if there are any errors
+    if (Object.values(newErrors).some(error => error !== "")) {
+      scrollToFirstError(newErrors)
       return
     }
 
@@ -231,12 +251,21 @@ export default function NotifyPage() {
                         id="name"
                         name="name"
                         type="text"
-                        required
                         value={formData.name}
                         onChange={handleChange}
-                        className="mt-2 h-12"
+                        className={`mt-2 h-12 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                         placeholder="Enter your full name"
+                        ref={nameRef}
                       />
+                      {errors.name && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-sm text-red-500 mt-1"
+                        >
+                          {errors.name}
+                        </motion.p>
+                      )}
                     </motion.div>
 
                     <motion.div
@@ -251,11 +280,11 @@ export default function NotifyPage() {
                         id="email"
                         name="email"
                         type="email"
-                        required
                         value={formData.email}
                         onChange={handleChange}
                         className={`mt-2 h-12 ${errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                         placeholder="Enter your email"
+                        ref={emailRef}
                       />
                       {errors.email && (
                         <motion.p
