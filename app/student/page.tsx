@@ -14,7 +14,7 @@ import { useDebounce } from "@/hooks/use-debounce"
 import { Layout } from "@/components/layout"
 
 const studentTexts = [
-  "Get Started",
+  "Get Help Paying for College",
 ]
 
 interface University {
@@ -371,8 +371,7 @@ export default function StudentPage() {
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
               >
-                During launch, the default view for donors will show student profiles in order of submission date. Creating your profile early may increase your chances of being seen and funded first.
-
+                Medici is currently curating verified student profiles and preparing for launch. If you're enrolled or planning to enroll in a US university and need support with tuition, submit your details. We'll reach out and invite you to create your full profile for donors to choose from and fund.
               </motion.p>
             </motion.div>
 
@@ -387,7 +386,17 @@ export default function StudentPage() {
             >
               <Card className="backdrop-blur-xl bg-card/80 border-border/50 shadow-2xl">
                 <CardContent className="p-6">
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Add this header section */}
+                  <div className="mb-8 text-center">
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                      Get Started
+                    </h2>
+                    <p className="text-sm text-muted-foreground leading-relaxed px-4">
+                      During launch, the default view for donors will show student profiles in order of submission date. Creating your profile early may increase your chances of being seen and funded first.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                     <motion.div
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -400,7 +409,6 @@ export default function StudentPage() {
                         id="name"
                         name="name"
                         type="text"
-                        required
                         value={formData.name}
                         onChange={handleChange}
                         className={`mt-2 h-12 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
@@ -430,7 +438,6 @@ export default function StudentPage() {
                         id="email"
                         name="email"
                         type="email"
-                        required
                         value={formData.email}
                         onChange={handleChange}
                         className={`mt-2 h-12 ${errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
@@ -526,7 +533,6 @@ export default function StudentPage() {
                         id="fieldOfStudy"
                         name="fieldOfStudy"
                         type="text"
-                        required
                         value={formData.fieldOfStudy}
                         onChange={handleChange}
                         className={`mt-2 h-12 ${errors.fieldOfStudy ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
@@ -594,6 +600,16 @@ export default function StudentPage() {
                         onChange={handleChange}
                         className="mt-2 h-12"
                         placeholder="e.g., 5000"
+                        onKeyDown={(e) => {
+                          // Prevent 'e' from being entered
+                          if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') {
+                            e.preventDefault();
+                          }
+                        }}
+                        // Add min to prevent negative numbers
+                        min="0"
+                        // Optionally add step to only allow whole numbers
+                        step="1"
                       />
                     </motion.div>
 
