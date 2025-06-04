@@ -168,9 +168,9 @@ export default function HomePage() {
                   transition={{ duration: 0.5 }}
                   className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
                 >
-                  Fund a Student's Future.{" "}
-                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    Direct. Instant. Transparent.
+                  <span className="block">Fund a Student's Future.</span>
+                  <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Direct. Instant. Transparent.
                   </span>
                 </motion.h1>
               </div>
