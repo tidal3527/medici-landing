@@ -80,6 +80,9 @@ export default function StudentPage() {
   }, [])
 
   useEffect(() => {
+    let isCurrentSearch = true; // Add this flag
+    const controller = new AbortController(); // Add abort controller
+
     const searchUniversities = async () => {
       if (debouncedUniversitySearch.length < 3 || userSelectedUniversity) {
         setUniversities([])
@@ -93,39 +96,44 @@ export default function StudentPage() {
       setApiTimeout(false)
       setShowUniversities(true)
 
-      // Create a timeout promise
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Timeout')), 5000) // 5 second timeout
-      })
-
       try {
-        const fetchPromise = fetch(
-          `/api/universities/search?query=${encodeURIComponent(debouncedUniversitySearch)}`
+        const response = await fetch(
+          `/api/universities/search?query=${encodeURIComponent(debouncedUniversitySearch)}`,
+          { signal: controller.signal } // Add abort signal
         )
 
-        // Race between the fetch and the timeout
-        const response = await Promise.race([fetchPromise, timeoutPromise]) as Response
         if (!response.ok) throw new Error('Failed to fetch universities')
         const data = await response.json()
-        if (!userSelectedUniversity) {
+        
+        // Only update state if this is still the current search
+        if (isCurrentSearch && !userSelectedUniversity) {
           setUniversities(data)
           setShowUniversities(true)
-          if (data.length === 0) {
-            setApiTimeout(true) // Show manual input option if no results
-          }
+          setApiTimeout(data.length === 0)
         }
       } catch (error) {
+        if (error.name === 'AbortError') {
+          return; // Ignore abort errors
+        }
         console.error('Error searching universities:', error)
-        if (!userSelectedUniversity) {
+        if (isCurrentSearch && !userSelectedUniversity) {
           setUniversities([])
-          setApiTimeout(true) // Show manual input option on error
+          setApiTimeout(true)
         }
       } finally {
-        setIsSearching(false)
+        if (isCurrentSearch) {
+          setIsSearching(false)
+        }
       }
     }
 
     searchUniversities()
+
+    // Cleanup function
+    return () => {
+      isCurrentSearch = false;
+      controller.abort();
+    }
   }, [debouncedUniversitySearch, userSelectedUniversity])
 
   const handleUniversitySelect = (university: University) => {
@@ -289,6 +297,31 @@ export default function StudentPage() {
       }))
     }
   }
+
+  useEffect(() => {
+    return () => {
+      // Clean up form state when component unmounts
+      setFormData({
+        name: "",
+        email: "",
+        university: "",
+        fieldOfStudy: "",
+        degree: "",
+        fundsRequested: "",
+        country: "US",
+        isManualUniversity: false
+      });
+      setErrors({
+        email: "",
+        name: "",
+        university: "",
+        fieldOfStudy: "",
+        degree: "",
+      });
+      setIsSubmitted(false);
+      setApiError(null);
+    };
+  }, []);
 
   if (isSubmitted) {
     return (
