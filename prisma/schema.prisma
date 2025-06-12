@@ -8,23 +8,35 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Student {
+model StudentProfile {
   id            String   @id @default(cuid())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  name          String
+  
+  // Basic Information (Step 1)
+  fullName      String
   email         String   @unique
-  university    String
-  fieldOfStudy  String
-  degree        String
-  fundsRequested Float?
-  country       String
-}
-
-model Donor {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  email     String   @unique
+  country       String   @default("United States")
+  university    String?
+  program       String?  // Program/Major
+  degreeLevel   String?  // undergraduate, graduate, phd
+  fundsRequested Float?  // Total Funds Requested (USD)
+  
+  // Your Story (Step 2)
+  quickBio      String?  @db.Text
+  past          String?  @db.Text
+  present       String?  @db.Text
+  future        String?  @db.Text
+  misc          String?  @db.Text
+  
+  // Social Links (Step 3) - JSON field to store array of links
+  socialLinks   Json?    // [{platform: string, url: string}]
+  
+  // Wallet Setup (Step 4)
+  walletAddress String?
+  
+  // Status tracking
+  status        String   @default("pending") // pending, verified, approved, rejected
+  
+  @@map("student_profiles")
 } 
