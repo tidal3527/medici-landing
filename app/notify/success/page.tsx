@@ -1,15 +1,16 @@
 "use client"
 
-import type React from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { CheckCircle2, Mail } from "lucide-react"
 import Link from "next/link"
 import { Layout } from "@/components/layout"
+import { Analytics } from "@/components/analytics"
+import { Button } from "@/components/ui/button"
+import { CheckCircle2, Mail } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function SuccessPage() {
 	return (
 		<Layout>
+			<Analytics />
 			<div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 relative overflow-hidden">
 				{/* Animated Background */}
 				<div className="absolute inset-0 -z-10">
@@ -48,7 +49,7 @@ export default function SuccessPage() {
 								<CheckCircle2 className="w-14 h-14 text-green-600 dark:text-green-400" />
 							</div>
 						</motion.div>
-						
+
 						{/* Main Title */}
 						<motion.h1
 							initial={{ opacity: 0, y: 30 }}
@@ -58,7 +59,7 @@ export default function SuccessPage() {
 						>
 							Profile Request Submitted!
 						</motion.h1>
-						
+
 						{/* Content */}
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}

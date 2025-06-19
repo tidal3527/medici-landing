@@ -25,6 +25,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Analytics } from "@/components/analytics"
 
 export default function StudentRegisterPage() {
 	const router = useRouter()
@@ -257,6 +258,7 @@ export default function StudentRegisterPage() {
 
 	return (
 		<Layout>
+			<Analytics />
 			{/* Loading Modal */}
 			<LoadingModal
 				isOpen={showModal}
@@ -1053,23 +1055,34 @@ export default function StudentRegisterPage() {
 										Previous
 									</Button>
 
-									{currentStep < totalSteps ? (
-										<Button 
-											onClick={nextStep} 
-											className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-										>
-											Next
-											<ArrowRight className="ml-2 h-4 w-4" />
-										</Button>
-									) : (
-										<Button 
-											onClick={handleSubmit}
-											disabled={isSubmitting}
-											className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" 
-										>
-											{isSubmitting ? 'Submitting...' : 'Submit Application'}
-										</Button>
-									)}
+									<div className="flex flex-col items-end gap-2">
+										{currentStep === 1 && (fieldErrors.fullName || fieldErrors.email) && (
+											<p className="text-red-500 text-sm">
+												{fieldErrors.fullName && fieldErrors.email 
+													? "Full name and email are required" 
+													: fieldErrors.fullName 
+														? "Full name is required"
+														: "Please enter a valid email address"}
+											</p>
+										)}
+										{currentStep < totalSteps ? (
+											<Button 
+												onClick={nextStep} 
+												className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+											>
+												Next
+												<ArrowRight className="ml-2 h-4 w-4" />
+											</Button>
+										) : (
+											<Button 
+												onClick={handleSubmit}
+												disabled={isSubmitting}
+												className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" 
+											>
+												{isSubmitting ? 'Submitting...' : 'Submit Application'}
+											</Button>
+										)}
+									</div>
 								</div>
 							</CardContent>
 						</Card>
