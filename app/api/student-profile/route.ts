@@ -14,11 +14,11 @@ const studentProfileSchema = z.object({
   fundsRequested: z.number().positive().optional(),
   
   // Step 2: Your Story
-  quickBio: z.string().max(60).optional(),
-  past: z.string().max(250).optional(),
-  present: z.string().max(250).optional(),
-  future: z.string().max(250).optional(),
-  misc: z.string().max(250).optional(),
+  quickBio: z.string().max(80).optional(),
+  past: z.string().max(300).optional(),
+  present: z.string().max(300).optional(),
+  future: z.string().max(300).optional(),
+  misc: z.string().max(300).optional(),
   
   // Step 3: Social Links
   socialLinks: z.array(z.object({

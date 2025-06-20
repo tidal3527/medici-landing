@@ -649,13 +649,13 @@ export default function StudentRegisterPage() {
 														id="quickBio"
 														placeholder="One or two sentences that sum you up..."
 														className="mt-2 min-h-[80px] border-border/50 rounded-lg bg-background/50 backdrop-blur-sm resize-none"
-														maxLength={60}
+														maxLength={80}
 														value={formData.quickBio}
-														onChange={(e) => handleTextareaChange('quickBio', e.target.value, 60)}
+														onChange={(e) => handleTextareaChange('quickBio', e.target.value, 80)}
 													/>
 													<div className="flex justify-end mt-1">
-														<span className={`text-xs ${getCharCountColor(charCounts.quickBio, 60)}`}>
-															{charCounts.quickBio}/60
+														<span className={`text-xs ${getCharCountColor(charCounts.quickBio, 80)}`}>
+															{charCounts.quickBio}/80
 														</span>
 													</div>
 												</motion.div>
@@ -694,13 +694,13 @@ export default function StudentRegisterPage() {
 														id="past"
 														placeholder="What experiences or challenges led you to pursue this education?"
 														className="mt-2 min-h-[120px] border-border/50 rounded-lg bg-background/50 backdrop-blur-sm resize-none"
-														maxLength={250}
+														maxLength={300}
 														value={formData.past}
-														onChange={(e) => handleTextareaChange('past', e.target.value, 250)}
+														onChange={(e) => handleTextareaChange('past', e.target.value, 300)}
 													/>
 													<div className="flex justify-end mt-1">
-														<span className={`text-xs ${getCharCountColor(charCounts.past, 250)}`}>
-															{charCounts.past}/250
+														<span className={`text-xs ${getCharCountColor(charCounts.past, 300)}`}>
+															{charCounts.past}/300
 														</span>
 													</div>
 												</motion.div>
@@ -739,13 +739,13 @@ export default function StudentRegisterPage() {
 														id="present"
 														placeholder="How would this support change your academic life?"
 														className="mt-2 min-h-[120px] border-border/50 rounded-lg bg-background/50 backdrop-blur-sm resize-none"
-														maxLength={250}
+														maxLength={300}
 														value={formData.present}
-														onChange={(e) => handleTextareaChange('present', e.target.value, 250)}
+														onChange={(e) => handleTextareaChange('present', e.target.value, 300)}
 													/>
 													<div className="flex justify-end mt-1">
-														<span className={`text-xs ${getCharCountColor(charCounts.present, 250)}`}>
-															{charCounts.present}/250
+														<span className={`text-xs ${getCharCountColor(charCounts.present, 300)}`}>
+															{charCounts.present}/300
 														</span>
 													</div>
 												</motion.div>
@@ -784,13 +784,13 @@ export default function StudentRegisterPage() {
 														id="future"
 														placeholder="After graduation, how do you plan to use your education in the real world?"
 														className="mt-2 min-h-[120px] border-border/50 rounded-lg bg-background/50 backdrop-blur-sm resize-none"
-														maxLength={250}
+														maxLength={300}
 														value={formData.future}
-														onChange={(e) => handleTextareaChange('future', e.target.value, 250)}
+														onChange={(e) => handleTextareaChange('future', e.target.value, 300)}
 													/>
 													<div className="flex justify-end mt-1">
-														<span className={`text-xs ${getCharCountColor(charCounts.future, 250)}`}>
-															{charCounts.future}/250
+														<span className={`text-xs ${getCharCountColor(charCounts.future, 300)}`}>
+															{charCounts.future}/300
 														</span>
 													</div>
 												</motion.div>
@@ -829,13 +829,13 @@ export default function StudentRegisterPage() {
 														id="misc"
 														placeholder="Any other information you want to share..."
 														className="mt-2 min-h-[120px] border-border/50 rounded-lg bg-background/50 backdrop-blur-sm resize-none"
-														maxLength={250}
+														maxLength={300}
 														value={formData.misc}
-														onChange={(e) => handleTextareaChange('misc', e.target.value, 250)}
+														onChange={(e) => handleTextareaChange('misc', e.target.value, 300)}
 													/>
 													<div className="flex justify-end mt-1">
-														<span className={`text-xs ${getCharCountColor(charCounts.misc, 250)}`}>
-															{charCounts.misc}/250
+														<span className={`text-xs ${getCharCountColor(charCounts.misc, 300)}`}>
+															{charCounts.misc}/300
 														</span>
 													</div>
 												</motion.div>

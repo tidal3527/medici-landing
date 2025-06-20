@@ -71,7 +71,7 @@ export default function SuccessPage() {
 								Thank you for starting your Medici journey.
 							</p>
 							<p>
-								Our team will review your info and email you within 3–5 business days. We'll then request your documents and complete a quick online verification.
+								Our team will review your info and email you within 5-7 business days. We'll then request your documents and complete a quick online verification.
 							</p>
 							<div className="flex items-center justify-center gap-2 text-base">
 								<Mail className="h-5 w-5 text-blue-600" />
