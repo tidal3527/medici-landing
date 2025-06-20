@@ -191,7 +191,7 @@ export default function HomePage() {
                 transition={{ duration: 1, delay: 0.4 }}
                 className="flex justify-center items-center"
               >
-                <Link href="/notify">
+                <Link href="/studentform">
                   <Button
                     size="lg"
                     className="px-8 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:scale-105 hover:shadow-lg transition-all duration-300"
