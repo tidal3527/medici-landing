@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
-import { User, DollarSign, FileText, Wallet, CheckCircle, Upload, ArrowRight, ArrowLeft, Info, Plus, AlertCircle } from "lucide-react"
+import { User, DollarSign, FileText, Wallet, CheckCircle, Upload, ArrowRight, ArrowLeft, Info, Plus, AlertCircle, Loader2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Layout } from "@/components/layout"
@@ -26,6 +26,14 @@ import {
 } from "@/components/ui/tooltip"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Analytics } from "@/components/analytics"
+
+interface University {
+	id: string
+	name: string
+	city: string
+	state: string
+	fullName: string
+}
 
 export default function StudentRegisterPage() {
 	const router = useRouter()
@@ -57,13 +65,15 @@ export default function StudentRegisterPage() {
 		past: '',
 		present: '',
 		future: '',
-		misc: ''
+		misc: '',
+		isManualUniversity: false
 	})
 
 	// Field errors state
 	const [fieldErrors, setFieldErrors] = useState({
 		fullName: false,
-		email: false
+		email: false,
+		university: false
 	})
 
 	// Character counters for step 2
@@ -254,6 +264,45 @@ export default function StudentRegisterPage() {
 		setTimeout(() => {
 			handleSubmit()
 		}, 100)
+	}
+
+	const [universities, setUniversities] = useState<University[]>([])
+	const [isSearching, setIsSearching] = useState(false)
+	const [showUniversities, setShowUniversities] = useState(false)
+	const [apiTimeout, setApiTimeout] = useState(false)
+	const universityInputRef = useRef<HTMLInputElement>(null)
+
+	const handleUniversityChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value
+		setFormData(prev => ({ ...prev, university: value }))
+		setFieldErrors(prev => ({ ...prev, university: false }))
+		clearError()
+
+		if (value.trim()) {
+			setIsSearching(true)
+			setShowUniversities(true)
+			try {
+				const response = await fetch(`/api/universities/search?query=${value}`)
+				const data = await response.json()
+				setUniversities(data)
+			} catch (error) {
+				console.error('Error searching universities:', error)
+			} finally {
+				setIsSearching(false)
+			}
+		} else {
+			setShowUniversities(false)
+		}
+	}
+
+	const handleUniversitySelect = (university: any) => {
+		setFormData(prev => ({ ...prev, university: university.name, isManualUniversity: false }))
+		setShowUniversities(false)
+	}
+
+	const handleManualUniversityInput = () => {
+		setFormData(prev => ({ ...prev, isManualUniversity: true }))
+		setShowUniversities(false)
 	}
 
 	return (
@@ -503,20 +552,67 @@ export default function StudentRegisterPage() {
 														/>
 													</motion.div>
 													<motion.div
-														initial={{ opacity: 0, y: 10 }}
-														animate={{ opacity: 1, y: 0 }}
-														transition={{ duration: 0.3, delay: 0.4 }}
+														initial={{ opacity: 0, x: -10 }}
+														animate={{ opacity: 1, x: 0 }}
+														transition={{ duration: 0.3, delay: 0.3 }}
+														className="relative"
 													>
-														<Label htmlFor="university" className="text-sm font-medium">
-															University
-														</Label>
-														<Input
-															id="university"
-															placeholder="e.g., MIT, Stanford, Harvard"
-															className="mt-2 rounded-full border-border/50 h-12 bg-background/50 backdrop-blur-sm"
-															value={formData.university}
-															onChange={(e) => handleInputChange('university', e.target.value)}
-														/>
+														<Label htmlFor="university">University</Label>
+														<div className="relative">
+															<Input
+																type="text"
+																id="university"
+																name="university"
+																value={formData.university}
+																onChange={handleUniversityChange}
+																placeholder="Search for your University..."
+																className={`w-full h-12 mt-2 rounded-full border-border/50 bg-background/50 backdrop-blur-sm ${fieldErrors.university ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+																autoComplete="off"
+																ref={universityInputRef}
+																onFocus={() => setShowUniversities(true)}
+																onBlur={() => setTimeout(() => setShowUniversities(false), 150)}
+															/>
+															{isSearching && (
+																<div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+																	<Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+																</div>
+															)}
+														</div>
+														{showUniversities && (
+															<div className="absolute z-10 w-full mt-1 bg-background border rounded-xl shadow-lg max-h-60 overflow-auto transition-all duration-200">
+																{universities.length > 0 && !formData.isManualUniversity ? (
+																	universities.map((uni) => (
+																		<div
+																			key={uni.id || uni.name}
+																			className="px-4 py-2 hover:bg-muted cursor-pointer rounded-xl"
+																			onMouseDown={() => handleUniversitySelect(uni)}
+																		>
+																			<div className="font-medium">{uni.name || "Unknown University"}</div>
+																			<div className="text-sm text-muted-foreground">{uni.city || ""}, {uni.state || ""}</div>
+																		</div>
+																	))
+																) : (!isSearching && !formData.isManualUniversity && formData.university.trim().length > 0) ? (
+																	<div
+																		className="px-4 py-2 text-muted-foreground cursor-pointer hover:bg-muted rounded-xl"
+																		onMouseDown={() => {
+																			setFormData(prev => ({ ...prev, university: prev.university, isManualUniversity: true }));
+																			setShowUniversities(false);
+																		}}
+																	>
+																		Not found? <span className="underline">Click to add manually</span>
+																	</div>
+																) : null}
+															</div>
+														)}
+														{fieldErrors.university && (
+															<motion.p
+																initial={{ opacity: 0, y: -10 }}
+																animate={{ opacity: 1, y: 0 }}
+																className="text-sm text-red-500 mt-1"
+															>
+																{fieldErrors.university}
+															</motion.p>
+														)}
 													</motion.div>
 												</div>
 

@@ -7,7 +7,7 @@ export function Header() {
   return (
     <header className="fixed top-0 w-full z-50 backdrop-blur-md bg-background/40 border-b border-border/30 supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center">
+        <Link href="https://medici.ac" className="flex items-center">
           <Image
             src="/logowithtext.svg"
             alt="Medici"
