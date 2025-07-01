@@ -19,9 +19,9 @@ export function Header() {
         </Link>
 
         <div className="flex items-center space-x-4">
-          <Link href="/student">
+          <Link href="mailto:contact@medici.com">
             <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-4 sm:px-6 shadow-md hover:shadow-lg transition-all duration-300">
-              I am a Student
+              Contact Us 
             </Button>
           </Link>
           <ThemeToggle />

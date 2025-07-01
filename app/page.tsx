@@ -189,17 +189,50 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.4 }}
-                className="flex justify-center items-center"
+                className="flex flex-col sm:flex-row justify-center items-center gap-4"
               >
                 <Link href="/notify">
                   <Button
                     size="lg"
+                    variant="outline"
                     className="px-8 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:scale-105 hover:shadow-lg transition-all duration-300"
                   >
                     Get Early Access
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
+                <div className="relative flex items-center justify-center">
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 z-0 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 blur-2xl opacity-70 scale-110" />
+                  <Button
+                    size="lg"
+                    className="relative z-10 flex items-center justify-center px-12 py-5 text-2xl font-semibold rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 text-white shadow-2xl overflow-hidden border-none focus:ring-4 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-105 hover:opacity-100 group"
+                    style={{
+                      boxShadow: '0 8px 32px 0 rgba(99,102,241,0.25), 0 1.5px 8px 0 rgba(168,85,247,0.15)',
+                    }}
+                    onClick={() => {
+                      window.location.href = 'https://student.medici.ac/studentform';
+                    }}
+                  >
+                    <span className="relative z-20">I am a Student</span>
+                    <span className="absolute inset-0 bg-white opacity-10 group-hover:opacity-30 transition-opacity duration-500 rounded-full blur-md"></span>
+                    <span className="absolute top-0 left-[-75%] w-[50%] h-full bg-white opacity-10 transform rotate-12 group-hover:animate-glare pointer-events-none"></span>
+                  </Button>
+                  <style jsx>{`
+                    @keyframes glare {
+                      0% {
+                        left: -75%;
+                      }
+                      100% {
+                        left: 125%;
+                      }
+                    }
+
+                    .group-hover\\:animate-glare {
+                      animation: glare 1.5s linear infinite;
+                    }
+                  `}</style>
+                </div>
               </motion.div>
             </motion.div>
           </motion.div>
