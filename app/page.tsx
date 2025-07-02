@@ -206,7 +206,7 @@ export default function HomePage() {
                   <div className="absolute inset-0 z-0 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 blur-2xl opacity-70 scale-110" />
                   <Button
                     size="lg"
-                    className="relative z-10 flex items-center justify-center px-12 py-5 text-2xl font-semibold rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 text-white shadow-2xl overflow-hidden border-none focus:ring-4 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-105 hover:opacity-100 group"
+                    className="relative z-10 flex items-center justify-center px-12 py-5 text-2xl font-medium rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl overflow-hidden border-none focus:ring-4 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-105 hover:opacity-100 group"
                     style={{
                       boxShadow: '0 8px 32px 0 rgba(99,102,241,0.25), 0 1.5px 8px 0 rgba(168,85,247,0.15)',
                     }}
@@ -214,9 +214,7 @@ export default function HomePage() {
                       window.location.href = 'https://student.medici.ac/studentform';
                     }}
                   >
-                    <span className="relative z-20">I am a Student</span>
-                    <span className="absolute inset-0 bg-white opacity-10 group-hover:opacity-30 transition-opacity duration-500 rounded-full blur-md"></span>
-                    <span className="absolute top-0 left-[-75%] w-[50%] h-full bg-white opacity-10 transform rotate-12 group-hover:animate-glare pointer-events-none"></span>
+                    <span className="relative z-20" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.18)' }}>I am a Student</span>
                   </Button>
                   <style jsx>{`
                     @keyframes glare {
