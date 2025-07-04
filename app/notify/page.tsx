@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, CheckCircle } from "lucide-react"
+import { ArrowLeft, CheckCircle, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Layout } from "@/components/layout"
 
@@ -165,12 +165,19 @@ export default function NotifyPage() {
 						</motion.p>
 
 						<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
-							<Link href="/">
-								<Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-									<ArrowLeft className="mr-2 h-4 w-4" />
-									Back to Home
-								</Button>
-							</Link>
+							<div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+								<Link href="/">
+									<Button className="border-2 border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500/10 hover:text-blue-700 px-8 py-3 rounded-full transition-all duration-300 font-semibold flex items-center gap-2">
+										<ArrowLeft className="mr-2 h-4 w-4" />
+										Back to Home
+									</Button>
+								</Link>
+								<Link href="/donate">
+									<Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
+										Donate to Medici
+									</Button>
+								</Link>
+							</div>
 						</motion.div>
 					</motion.div>
 				</div>
@@ -353,11 +360,24 @@ export default function NotifyPage() {
 										initial={{ opacity: 0 }}
 										animate={{ opacity: 1 }}
 										transition={{ duration: 0.3, delay: 0.4 }}
-										className="mt-6 text-center"
+										className="mt-6 text-center flex flex-col gap-4"
 									>
-										<Link href="/" className="text-blue-600 hover:text-blue-700 text-sm transition-colors">
-											← Back to Home
-										</Link>
+										<motion.div
+											whileHover={{ scale: 1.08 }}
+											transition={{ type: 'spring', stiffness: 300 }}
+											className="inline-block"
+										>
+											<Link href="/donate">
+												<Button
+													size="lg"
+													variant="outline"
+													className="px-8 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:scale-105 hover:shadow-lg transition-all duration-300"
+												>
+													Donate to Medici
+													<ArrowRight className="ml-2 h-5 w-5" />
+												</Button>
+											</Link>
+										</motion.div>
 									</motion.div>
 								</CardContent>
 							</Card>
