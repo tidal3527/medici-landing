@@ -17,7 +17,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://medici.so'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://medici.ac'),
   title: {
     default: "Medici - Fund a Student's Future",
     template: "%s | Medici"
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://medici.so",
+    url: "https://medici.ac",
     title: "Medici - Fund a Student's Future",
     description: "Fund verified students directly and transparently through blockchain technology.",
     siteName: "Medici",
