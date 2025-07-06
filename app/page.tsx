@@ -193,7 +193,7 @@ export default function HomePage() {
               >
                 <Link href="/notify">
                   <Button
-                    size="lg"
+                    size="lg"   
                     variant="outline"
                     className="px-8 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:scale-105 hover:shadow-lg transition-all duration-300"
                   >
@@ -202,7 +202,7 @@ export default function HomePage() {
                   </Button>
                 </Link>
                 <div className="relative flex items-center justify-center">
-                  {/* Glow Effect */}
+                  {/* Glow Effect for I am a Student button */}
                   <div className="absolute inset-0 z-0 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 blur-2xl opacity-70 scale-110" />
                   <Button
                     size="lg"
