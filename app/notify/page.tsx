@@ -355,6 +355,7 @@ export default function NotifyPage() {
 											</Button>
 										</motion.div>
 									</form>
+									{/*
 
 									<motion.div
 										initial={{ opacity: 0 }}
@@ -379,6 +380,7 @@ export default function NotifyPage() {
 											</Link>
 										</motion.div>
 									</motion.div>
+									*/}
 								</CardContent>
 							</Card>
 						</motion.div>
