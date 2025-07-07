@@ -48,6 +48,11 @@ export function Footer() {
                   Privacy Policy
                 </Link>
               </li>
+                            <li>
+                <Link href="/careers" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Careers
+                </Link>
+              </li>
             </ul>
           </div>
 
