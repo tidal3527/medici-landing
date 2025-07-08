@@ -166,7 +166,7 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
                 >
                   <span className="block">Fund a Student's Future.</span>
                   <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -179,10 +179,11 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.2 }}
-                className="text-lg md:text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed"
+                className="text-lg md:text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed text-left sm:text-center"
               >
-                Browse real student profiles. Filter by field, university or background. <br />
-                Send any amount. Securely, peer-to-peer, via the blockchain.
+                <p>Browse real student profiles. Filter by field, university or background.</p>
+                <p className="mt-4">Send any amount. Securely, peer-to-peer, via the blockchain.</p>
+
               </motion.p>
 
               <motion.div
@@ -197,8 +198,8 @@ export default function HomePage() {
                     variant="outline"
                     className="px-8 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:scale-105 hover:shadow-lg transition-all duration-300"
                   >
-                    Get Early Access
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    Support a Student
+                   {/* <ArrowRight className="ml-2 h-5 w-5" /> */}
                   </Button>
                 </Link>
                 <div className="relative flex items-center justify-center">
@@ -206,7 +207,7 @@ export default function HomePage() {
                   <div className="absolute inset-0 z-0 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 blur-2xl opacity-70 scale-110" />
                   <Button
                     size="lg"
-                    className="relative z-10 flex items-center justify-center px-12 py-5 text-2xl font-medium rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl overflow-hidden border-none focus:ring-4 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-105 hover:opacity-100 group"
+                    className="relative z-10 flex items-center justify-center px-12 py-4 text-2xl font-medium rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl overflow-hidden border-none focus:ring-4 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-105 hover:opacity-100 group"
                     style={{
                       boxShadow: '0 8px 32px 0 rgba(99,102,241,0.25), 0 1.5px 8px 0 rgba(168,85,247,0.15)',
                     }}

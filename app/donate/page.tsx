@@ -80,7 +80,7 @@ export default function DonatePrototype() {
                     transition={{ duration: 0.4 }}
                     className="text-4xl md:text-6xl font-bold mb-6"
                   >
-                    Donate to Medici
+                    Contribute to the Medici Amplifier
                   </motion.h1>
                 </AnimatePresence>
                 <motion.p
@@ -89,21 +89,43 @@ export default function DonatePrototype() {
                   transition={{ duration: 0.4, delay: 0.2 }}
                   className="text-lg text-muted-foreground text-center mb-10 max-w-2xl mx-auto md:mb-14 md:text-xl"
                 >
-                  Your donation will go directly to supporting verified students in need. Every contribution helps empower the next generation of scholars and makes a real impact on their educational journey.
+                  The Medici Amplifier is our matching fund designed to boost early donors’ support. 
+                  By contributing, you  increase the value of every direct student donation.           
                 </motion.p>
               </motion.div>
+
+              <div className="flex justify-center">
+                    <Button
+                      size="lg"
+                      className="max-w-sm px-12 py-4 text-xl rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-300"
+                      onClick={() => setStep("form")}
+                    >
+                      <Wallet className="mr-2 h-5 w-5" />
+                      Connect Wallet
+                    </Button>
+              </div>
+
+              <br/>
+
+              <p className="text-sm italic text-muted-foreground mt-4">
+                    All distributions are transparent and can be verified on-chain. Matching rates vary based on available Amplifier funds and direct donation amounts. Contact us if you have any questions about connecting your wallet or making a payment.
+              </p>
+
+              {/*      
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 }}
               >
                 <Card className="mb-8 bg-card border-border">
-                  <CardHeader>
+                  
+                    <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Wallet className="h-5 w-5" />
-                      Connect Your Crypto Wallet
+                       Send USDC via Solana to the Medici Amplifier 
                     </CardTitle>
                   </CardHeader>
+                  
                   <CardContent>
                     <p className="text-muted-foreground mb-6">Connect your crypto wallet to send USDC to Medici</p>
                     <Button
@@ -117,8 +139,11 @@ export default function DonatePrototype() {
                   </CardContent>
                 </Card>
               </motion.div>
+              */}
             </>
           )}
+
+
 
           {step === "form" && (
             <>

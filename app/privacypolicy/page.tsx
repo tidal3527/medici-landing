@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
               
               <p><strong>Data Controller Contact Information:</strong></p>
               <ul className="list-none ml-4">
-                <li>Email: rd@stableresearch.xyz</li>
+                <li>Email: contact@medici.ac</li>
                 <li>Entity: Miruvor LLC</li>
                 <li>Jurisdiction: United States</li>
               </ul>
@@ -255,7 +255,7 @@ export default function PrivacyPolicyPage() {
               </ul>
 
               <h3 className="text-lg font-semibold mt-4 mb-2">9.2 Exercising Your Rights</h3>
-              <p>To exercise any of these rights, please contact us at: <strong>rd@stableresearch.xyz</strong></p>
+              <p>To exercise any of these rights, please contact us at: <strong>contact@medici.ac</strong></p>
               <p>We will respond to verified requests within the timeframes required by applicable law (typically 30 days for GDPR requests, 45 days for CCPA requests).</p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4 border-b pb-2">10. INTERNATIONAL DATA TRANSFERS</h2>
@@ -278,7 +278,7 @@ export default function PrivacyPolicyPage() {
               <p>The Site is not directed to, intended for, or designed to attract children under the age of sixteen (16) years. We do not knowingly collect personal information from children under 16.</p>
 
               <h3 className="text-lg font-semibold mt-4 mb-2">11.2 Parental Notice and Deletion</h3>
-              <p>If we become aware that we have inadvertently collected personal information from a child under 16, we will take immediate steps to delete such information from our systems. Parents or guardians who believe their child has provided personal data should contact us immediately at rd@stableresearch.xyz.</p>
+              <p>If we become aware that we have inadvertently collected personal information from a child under 16, we will take immediate steps to delete such information from our systems. Parents or guardians who believe their child has provided personal data should contact us immediately at contact@medici.ac.</p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4 border-b pb-2">12. POLICY UPDATES AND AMENDMENTS</h2>
               
@@ -301,7 +301,7 @@ export default function PrivacyPolicyPage() {
               <h3 className="text-lg font-semibold mt-4 mb-2">13.1 Primary Contact</h3>
               <p>For all privacy-related questions, concerns, or requests, please contact:</p>
               <ul className="list-none ml-4 space-y-1">
-                <li><strong>Email:</strong> rd@stableresearch.xyz</li>
+                <li><strong>Email:</strong> contact@medici.ac</li>
                 <li><strong>Response Time:</strong> We aim to respond within 5 business days</li>
                 <li><strong>Data Controller:</strong> Miruvor LLC</li>
               </ul>

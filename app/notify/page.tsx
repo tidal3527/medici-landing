@@ -12,7 +12,7 @@ import Link from "next/link"
 import { Layout } from "@/components/layout"
 
 const notifyTexts = [
-	"Choose Students to Support.",
+	"Choose Students to Support",
 ]
 
 export default function NotifyPage() {
@@ -242,7 +242,7 @@ export default function NotifyPage() {
 								transition={{ duration: 0.4, delay: 0.2 }}
 								className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
 							>
-								Medici is currently curating verified student profiles and setting up funding flows. If you're interested in becoming an early donor, leave your name and email and we'll reach out as soon as we're ready to launch.
+								Medici is currently curating verified student profiles. Sign up if you're interested in becoming an early donor and we'll reach out as soon as we're ready to launch.
 							</motion.p>
 						</motion.div>
 
@@ -355,8 +355,26 @@ export default function NotifyPage() {
 											</Button>
 										</motion.div>
 									</form>
+									
 									{/*
+									WE WILL INCLUDE THIS SNIPPET ONCE THE SMART CONTRACT GOES LIVE
 
+									<p className="text-sm text-center text-muted-foreground mt-6">
+  										Prefer to help right away?{' '}
+										<br/>
+										Donate to the {" "}
+  										<Link
+    									href="/donate"
+    									className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+  										>
+    									Medici Amplifier
+  										</Link>
+										.
+									</p>	
+									*/}
+
+
+									{/*
 									<motion.div
 										initial={{ opacity: 0 }}
 										animate={{ opacity: 1 }}

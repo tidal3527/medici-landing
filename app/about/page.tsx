@@ -37,28 +37,33 @@ export default function AboutPage() {
               </p>
 
               <p>
-                We believe that kind of world should be possible again. A world where anyone, regardless of wealth, can act like a Medici and carefully deploy capital toward people they believe in.
+                That world should be possible again. A world where anyone, regardless of wealth, can act like a Medici and carefully deploy capital toward people they believe in.
               </p>
 
               <p>
-                Named after the famed family, Medici is a platform to invest in people. We're building transparent, on-chain infrastructure for human capital funding. At launch, we enable direct peer-to-peer education funding for university students. Next, we'll expand to income-sharing grants where donors can strategically back individuals - whether researchers, founders or creatives - and share in their future.
+                Named after the famed family, Medici.ac is a platform to invest in people. We're building transparent, on-chain infrastructure for human capital funding.
               </p>
 
               <p>
-                The current student debt system is inefficient, extractive and predatory. It works for no one. It limits freedom and punishes ambition. We want to replace it with something better: something aligned with student success and risk-taking, not just repayment schedules.
+                At launch, we enable direct peer-to-peer education funding for university students in the US. Next, we'll expand globally and to donation mechanisms (like income-sharing grants proposed by Milton Friedman) for researchers, founders or creatives.
               </p>
 
               <p>
-                We believe the world can enter multiple new renaissances. Talent doesn't just surface on its own. It needs to be discovered and nurtured.
+                The current student debt system is inefficient, extractive and predatory. It works for no one, limits freedom and punishes ambition. The blockchain enables its replacement.
               </p>
 
               <p>
-                Medici is built by <strong>Miruvor Labs</strong>, an R&D studio focused on leveraging blockchain technologies to explore how humans can reorganize themselves to drive better collective outcomes. 
+                We believe the world can enter multiple new renaissances. Yet, talent doesn't just surface on its own. It needs to be discovered and nurtured.
               </p>
 
-              <p className="italic text-sm text-muted-foreground mt-12 text-center">
-                We have big plans. Stay tuned.
+              <p>
+                
+                Medici is built by <a href="https://miruvor.me" target="_blank" rel="noopener noreferrer" className="underline">Miruvor</a>, an R&D studio focused on leveraging blockchain technologies to explore how humans can reorganize themselves to drive better collective outcomes. 
               </p>
+
+              <p>
+                Big plans ahead. Subscribe for updates and be part of the journey. 
+              </p>              
             </motion.div>
           </div>
         </div>

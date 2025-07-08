@@ -4,7 +4,12 @@ import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+})
+
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -113,7 +118,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

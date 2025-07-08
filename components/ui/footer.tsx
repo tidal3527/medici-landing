@@ -58,7 +58,7 @@ export function Footer() {
 
           {/* Connect Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Connect</h3>
+            <h3 className="font-semibold text-lg mb-4">Contact</h3>
             <ul className="space-y-3">
               <li>
                 <a
@@ -73,7 +73,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:rd@stableresearch.xyz"
+                  href="mailto:contact@medici.ac"
                   className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center"
                 >
                   <Mail className="h-4 w-4 mr-2" />
