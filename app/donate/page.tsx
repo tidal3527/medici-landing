@@ -25,7 +25,7 @@ export default function DonatePrototype() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 flex flex-col">
       <Header />
       <div className="flex-1 flex items-center justify-center px-4 pt-32 pb-32">
         <div className="w-full max-w-xl">
@@ -87,29 +87,37 @@ export default function DonatePrototype() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
-                  className="text-lg text-muted-foreground text-center mb-10 max-w-2xl mx-auto md:mb-14 md:text-xl"
+                  className="text-lg text-neutral-800 dark:text-neutral-200 mb-10 max-w-2xl mx-auto md:mb-14 md:text-xl text-left sm:text-center md:text-center lg:text-center"
                 >
                   The Medici Amplifier is our matching fund designed to boost early donors’ support. 
                   By contributing, you  increase the value of every direct student donation.           
                 </motion.p>
               </motion.div>
 
-              <div className="flex justify-center">
-                    <Button
-                      size="lg"
-                      className="max-w-sm px-12 py-4 text-xl rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-300"
-                      onClick={() => setStep("form")}
-                    >
-                      <Wallet className="mr-2 h-5 w-5" />
-                      Connect Wallet
-                    </Button>
-              </div>
-
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.6 }}
+                className="flex justify-center"
+              >
+                <Button
+                  size="lg"
+                  className="max-w-sm px-12 py-4 text-xl rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md hover:shadow-lg transition-all duration-300"
+                  onClick={() => setStep("form")}
+                >
+                  <Wallet className="mr-2 h-5 w-5" />
+                  Connect Wallet
+                </Button>
+              </motion.div>
               <br/>
-
-              <p className="text-sm italic text-muted-foreground mt-4">
-                    All distributions are transparent and can be verified on-chain. Matching rates vary based on available Amplifier funds and direct donation amounts. Contact us if you have any questions about connecting your wallet or making a payment.
-              </p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.8 }}
+                className="text-sm italic text-neutral-800 dark:text-neutral-200 mt-4 text-center max-w-2xl mx-auto"
+              >
+                All distributions are transparent and can be verified on-chain. Matching rates vary based on available Amplifier funds and direct donation amounts. Contact us if you have any questions about connecting your wallet or making a payment.
+              </motion.p>
 
               {/*      
               <motion.div

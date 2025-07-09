@@ -93,7 +93,7 @@ export default function SuccessPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background dark:bg-black text-foreground">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 text-foreground">
       <Header />
       <div className="container mx-auto px-6 py-20 max-w-2xl text-center pt-20">
         <motion.div

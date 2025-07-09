@@ -19,7 +19,7 @@ export function Footer() {
                 priority
               />
             </Link>
-            <p className="text-muted-foreground text-base max-w-xs leading-relaxed">
+            <p className="text-neutral-800 dark:text-neutral-200 text-base max-w-xs leading-relaxed">
               A peer-to-peer platform where donors pick verified students, choose any amount and fund their education securely and directly on the blockchain
             </p>
           </div>
@@ -29,27 +29,27 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4">Platform</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/#how-it-works" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/about" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/#faq" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/#faq" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/privacypolicy" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/privacypolicy" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   Privacy Policy
                 </Link>
               </li>
                             <li>
-                <Link href="/careers" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/careers" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   Careers
                 </Link>
               </li>
@@ -65,7 +65,7 @@ export function Footer() {
                   href="https://x.com/Medici_ac"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center"
+                  className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors inline-flex items-center"
                 >
                   <Twitter className="h-4 w-4 mr-2" />
                   Twitter
@@ -74,7 +74,7 @@ export function Footer() {
               <li>
                 <a
                   href="mailto:contact@medici.ac"
-                  className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center"
+                  className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors inline-flex items-center"
                 >
                   <Mail className="h-4 w-4 mr-2" />
                   Email
@@ -84,7 +84,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+        <div className="mt-12 pt-8 border-t text-center text-sm text-neutral-800 dark:text-neutral-200">
           © 2025 Medici. All rights reserved.
         </div>
       </div>

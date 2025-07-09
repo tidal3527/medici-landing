@@ -240,7 +240,7 @@ export default function NotifyPage() {
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.4, delay: 0.2 }}
-								className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+								className="text-xl text-neutral-800 dark:text-neutral-200 max-w-2xl mx-auto leading-relaxed text-left sm:text-center md:text-center lg:text-center"
 							>
 								Medici is currently curating verified student profiles. Sign up if you're interested in becoming an early donor and we'll reach out as soon as we're ready to launch.
 							</motion.p>
@@ -356,10 +356,10 @@ export default function NotifyPage() {
 										</motion.div>
 									</form>
 									
-									{/*
-									WE WILL INCLUDE THIS SNIPPET ONCE THE SMART CONTRACT GOES LIVE
+									
+									{/* WE WILL INCLUDE THIS SNIPPET ONCE THE SMART CONTRACT GOES LIVE */}
 
-									<p className="text-sm text-center text-muted-foreground mt-6">
+									{/* <p className="text-sm text-center text-neutral-800 dark:text-neutral-200 mt-6">
   										Prefer to help right away?{' '}
 										<br/>
 										Donate to the {" "}
@@ -370,8 +370,8 @@ export default function NotifyPage() {
     									Medici Amplifier
   										</Link>
 										.
-									</p>	
-									*/}
+									</p>	 */}
+									
 
 
 									{/*

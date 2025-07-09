@@ -179,7 +179,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.2 }}
-                className="text-lg md:text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed text-left sm:text-center"
+                className="text-lg md:text-xl text-neutral-800 dark:text-neutral-200 mb-12 max-w-3xl mx-auto leading-relaxed text-left sm:text-center md:text-center lg:text-center"
               >
                 <p>Browse real student profiles. Filter by field, university or background.</p>
                 <p className="mt-4">Send any amount. Securely, peer-to-peer, via the blockchain.</p>
@@ -190,24 +190,24 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.4 }}
-                className="flex flex-col sm:flex-row justify-center items-center gap-4"
+                className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full max-w-xs mx-auto"
               >
-                <Link href="/notify">
+                <Link href="/notify" className="w-full">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="px-8 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:scale-105 hover:shadow-lg transition-all duration-300"
+                    className="px-8 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:scale-105 hover:shadow-lg transition-all duration-300 w-full"
                   >
                     Support a Student
                    {/* <ArrowRight className="ml-2 h-5 w-5" /> */}
                   </Button>
                 </Link>
-                <div className="relative flex items-center justify-center">
+                <div className="relative flex items-center justify-center w-full">
                   {/* Glow Effect */}
                   <div className="absolute inset-0 z-0 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 blur-2xl opacity-70 scale-110" />
                   <Button
                     size="lg"
-                    className="relative z-10 flex items-center justify-center px-12 py-4 text-2xl font-medium rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl overflow-hidden border-none focus:ring-4 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-105 hover:opacity-100 group"
+                    className="relative z-10 flex items-center justify-center px-12 py-4 text-2xl font-medium rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl overflow-hidden border-none focus:ring-4 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-105 hover:opacity-100 group w-full"
                     style={{
                       boxShadow: '0 8px 32px 0 rgba(99,102,241,0.25), 0 1.5px 8px 0 rgba(168,85,247,0.15)',
                     }}
@@ -312,7 +312,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
-                  className="text-xl md:text-2xl text-muted-foreground/80 max-w-3xl mx-auto leading-relaxed"
+                  className="text-xl md:text-2xl text-neutral-800 dark:text-neutral-200 max-w-3xl mx-auto leading-relaxed"
                 >
                   Educational funding is broken. We're using the blockchain to fix it.
                 </motion.p>
@@ -344,7 +344,7 @@ export default function HomePage() {
                         <feature.icon className="h-7 w-7 text-white" />
                       </div>
                       <h3 className="text-2xl font-semibold mb-4">{feature.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed flex-grow">{feature.description}</p>
+                      <p className="text-neutral-800 dark:text-neutral-200 leading-relaxed flex-grow">{feature.description}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -402,7 +402,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
-                  className="text-xl md:text-2xl text-muted-foreground/80 max-w-3xl mx-auto leading-relaxed"
+                  className="text-xl md:text-2xl text-neutral-800 dark:text-neutral-200 max-w-3xl mx-auto leading-relaxed"
                 >
                    
                 </motion.p>
@@ -423,10 +423,10 @@ export default function HomePage() {
                     <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                       Back a Student in a Few Clicks
                     </h3>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-lg text-neutral-800 dark:text-neutral-200 leading-relaxed">
                       Browse through student profiles and choose someone you want to fund. Click "Back This Student", enter your preferred amount and approve the transaction through your crypto wallet.
                     </p>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-lg text-neutral-800 dark:text-neutral-200 leading-relaxed">
                       Funds reach the student's wallet instantly, all recorded on the blockchain. No logins. No intermediaries. Secure and traceable.
                     </p>
                   </motion.div>
@@ -456,17 +456,29 @@ export default function HomePage() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="py-16 px-4">
+        <section id="faq" className="py-16 px-4 relative overflow-hidden">
+          {/* Background glow (dark, semi-transparent, blurred) */}
+          <div className="absolute left-1/2 top-0 -translate-x-1/2 -z-10 w-[120vw] h-[340px] bg-gradient-to-b from-[#181629] via-[#1a102a] to-transparent opacity-80 rounded-3xl blur-3xl" />
           <div className="container mx-auto max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-16 relative"
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-              <p className="text-xl text-muted-foreground">
+              {/* Removed heading glow */}
+              <div className="mb-4 inline-block">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mx-auto">
+                  <span className="text-white text-2xl">✦</span>
+                </div>
+              </div>
+              <h2 className="text-5xl md:text-6xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Frequently Asked Questions
+                </span>
+              </h2>
+              <p className="text-xl text-neutral-800 dark:text-neutral-200 text-left sm:text-center md:text-center lg:text-center">
                 Everything you need to know about Medici
               </p>
             </motion.div>
@@ -493,7 +505,7 @@ export default function HomePage() {
                       <AccordionTrigger className="text-left font-semibold hover:no-underline py-6">
                         {faq.question}
                       </AccordionTrigger>
-                      <AccordionContent className="text-muted-foreground pb-6 leading-relaxed">
+                      <AccordionContent className="text-neutral-800 dark:text-neutral-200 pb-6 leading-relaxed">
                         {faq.answer}
                       </AccordionContent>
                     </AccordionItem>
