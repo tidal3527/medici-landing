@@ -19,7 +19,7 @@ export default function CampusAmbassadorPage() {
               Medici Campus Ambassador Program
             </h1>
 
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-neutral-800 dark:text-neutral-200">
               This is our early access phase and we're looking to onboard as many students as possible. As a Medici Student Ambassador, you’ll help your friends fund their education directly while earning money for every successful signup.
             </p>
 

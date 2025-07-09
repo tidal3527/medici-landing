@@ -29,7 +29,7 @@ export default function CareersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto space-y-6 text-left"
+              className="text-lg text-neutral-800 dark:text-neutral-200 leading-relaxed max-w-3xl mx-auto space-y-6 text-left"
             >
               <p>
                 We're not currently hiring for full-time roles. However, you're welcome to send us a general application at{" "}
