@@ -10,6 +10,8 @@ import { Users, Shield, Zap, ArrowRight, GraduationCap, Heart, Globe, Mail, Twit
 import Link from "next/link"
 import { Header } from "@/components/ui/header"
 import { Layout } from "@/components/layout"
+import { Input } from '@/components/ui/input'
+import { useToast } from '@/hooks/use-toast'
 
 const features = [
   {
@@ -515,7 +517,95 @@ export default function HomePage() {
             </motion.div>
           </div>
         </section>
+        {/* Subscribe for Updates Section (below FAQ) */}
+        <section className="py-12 flex flex-col items-center justify-center bg-background/70">
+          <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent text-center">Subscribe for Updates</h2>
+          <p className="text-neutral-700 dark:text-neutral-200 text-lg mb-6 text-center max-w-xl">Get the latest news and platform updates directly to your inbox.</p>
+          <SubscribeForm />
+        </section>
       </div>
     </Layout>
+  )
+}
+
+function SubscribeForm() {
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  // const { toast } = useToast() // Remove toast for success
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+    // Client-side email validation
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    if (!emailPattern.test(email)) {
+      setError('Please enter a valid email address.')
+      return
+    }
+    setLoading(true)
+    try {
+      const res = await fetch('/api/subscribers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setSuccess("You're subscribed!")
+        setEmail('')
+        setTimeout(() => setSuccess(''), 4000)
+      } else {
+        setError(data.error || 'Failed to subscribe.')
+      }
+    } catch (err) {
+      setError('Network error. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-xl flex flex-col items-center gap-2 bg-card/50 border border-border rounded-xl p-4 shadow-lg"
+      noValidate
+    >
+      <div className="flex w-full items-center gap-2">
+        <Input
+          type="email"
+          placeholder="Enter your email for updates"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+          className={`flex-1 text-base md:text-sm ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''}`}
+          disabled={loading}
+          pattern={undefined}
+        />
+        <Button type="submit" size="lg" disabled={loading || !email} className="ml-2">
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+              </svg>
+              Subscribing...
+            </span>
+          ) : 'Subscribe'}
+        </Button>
+      </div>
+      {error && (
+        <div className="w-full text-left">
+          <span className="text-sm text-red-600 font-normal">{error}</span>
+        </div>
+      )}
+      {success && (
+        <div className="w-full text-left">
+          <span className="text-sm text-green-600 font-semibold">{success}</span>
+        </div>
+      )}
+    </form>
   )
 }
