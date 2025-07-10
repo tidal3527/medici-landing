@@ -55,7 +55,7 @@ export default function SuccessPage() {
 							initial={{ opacity: 0, y: 30 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.2 }}
-							className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight"
+							className="text-4xl md:text-5xl font-bold text-black dark:text-white leading-tight"
 						>
 							Profile Request Submitted!
 						</motion.h1>
@@ -65,7 +65,7 @@ export default function SuccessPage() {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.4 }}
-							className="space-y-6 text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto"
+							className="space-y-6 text-lg text-gray-800 dark:text-gray-200 leading-relaxed max-w-2xl mx-auto text-left md:text-center"
 						>
 							<p className="text-xl font-light">
 								Thank you for starting your Medici journey.
@@ -73,7 +73,7 @@ export default function SuccessPage() {
 							<p>
 								Our team will review your info and email you within 5-7 business days. We'll then request your documents and complete a quick online verification.
 							</p>
-							<div className="flex items-center justify-center gap-2 text-base">
+							<div className="flex items-center justify-center gap-2 text-base md:justify-center md:text-center text-left">
 								<Mail className="h-5 w-5 text-blue-600" />
 								<span>Have questions? Reach us anytime at </span>
 								<a 

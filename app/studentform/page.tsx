@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Analytics } from "@/components/analytics"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface University {
 	id: string
@@ -66,7 +67,8 @@ export default function StudentRegisterPage() {
 		present: '',
 		future: '',
 		misc: '',
-		isManualUniversity: false
+		isManualUniversity: false,
+		referralCode: '',
 	})
 
 	// Field errors state
@@ -182,7 +184,8 @@ export default function StudentRegisterPage() {
 	const validateStep1 = () => {
 		const errors = {
 			fullName: !formData.fullName.trim(),
-			email: !formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+			email: !formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email),
+			university: false // keep as false, or add validation if needed
 		}
 		
 		setFieldErrors(errors)
@@ -237,7 +240,8 @@ export default function StudentRegisterPage() {
 				future: formData.future || undefined,
 				misc: formData.misc || undefined,
 				socialLinks: socialLinks.filter(link => link.url && link.url.trim() !== ''),
-				walletAddress: walletAddress || undefined
+				walletAddress: walletAddress || undefined,
+				referralCode: formData.referralCode || undefined,
 			}
 
 			const success = await submitProfile(submissionData)
@@ -305,6 +309,26 @@ export default function StudentRegisterPage() {
 		setShowUniversities(false)
 	}
 
+	const isMobile = useIsMobile();
+	const [openTooltip, setOpenTooltip] = useState<string | null>(null);
+	const handleTooltipToggle = (id: string) => {
+		setOpenTooltip(openTooltip === id ? null : id);
+	};
+	useEffect(() => {
+		if (!isMobile) setOpenTooltip(null);
+		if (!openTooltip) return;
+		const handleClick = (e: MouseEvent) => {
+			// Close tooltip if click is outside any tooltip content
+			if (!(e.target as HTMLElement).closest('.custom-mobile-tooltip')) {
+				setOpenTooltip(null);
+			}
+		};
+		if (isMobile) {
+			document.addEventListener('mousedown', handleClick);
+			return () => document.removeEventListener('mousedown', handleClick);
+		}
+	}, [isMobile, openTooltip]);
+
 	return (
 		<Layout>
 			<Analytics />
@@ -352,11 +376,11 @@ export default function StudentRegisterPage() {
 						transition={{ duration: 0.6 }}
 						className="mb-12"
 					>
-						<h1 className="text-4xl md:text-5xl font-bold text-center mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight">
-						Build your Medici student profile
+						<h1 className="text-4xl md:text-5xl font-bold text-black dark:text-white text-center mb-6 leading-tight">
+							Build your Medici student profile
 						</h1>
-						<p className="text-xl text-muted-foreground text-center mb-8 font-light leading-relaxed">
-						If you're enrolled or planning to enroll in a US university and need support with tuition, share your details to get discovered by Medici donors
+						<p className="text-xl text-gray-800 dark:text-gray-200 text-left md:text-center mb-8 font-normal leading-relaxed">
+							If you're enrolled or planning to enroll in a US university and need support with tuition, share your details to get discovered by Medici donors
 						</p>
 
 						{/* Information Box */}
@@ -463,16 +487,25 @@ export default function StudentRegisterPage() {
 													<div className="flex items-center gap-2 mb-4">
 														<CardTitle className="text-2xl font-light">Basic Information</CardTitle>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'basic-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'basic-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('basic-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		Accurate degree, major, and location details make it easier for us to verify your profile and for donors to find you.
@@ -509,110 +542,48 @@ export default function StudentRegisterPage() {
 													)}
 												</motion.div>
 
-												<motion.div
-													initial={{ opacity: 0, y: 10 }}
-													animate={{ opacity: 1, y: 0 }}
-													transition={{ duration: 0.3, delay: 0.2 }}
-												>
-													<Label htmlFor="email" className="text-sm font-medium">
-														Email Address <span className="text-red-500">*</span>
-													</Label>
-													<Input
-														id="email"
-														type="email"
-														placeholder="your.email@example.com"
-														className={`mt-2 rounded-full border-border/50 h-12 bg-background/50 backdrop-blur-sm ${
-															fieldErrors.email ? 'border-red-500 ring-2 ring-red-500/20' : ''
-														}`}
-														required
-														value={formData.email}
-														onChange={(e) => handleInputChange('email', e.target.value)}
-													/>
-													{fieldErrors.email && (
-														<p className="text-red-500 text-sm mt-1">
-															{!formData.email.trim() ? 'Email is required' : 'Please enter a valid email address'}
-														</p>
-													)}
-												</motion.div>
-
+												{/* Email and Referral Code side by side */}
 												<div className="grid md:grid-cols-2 gap-6">
 													<motion.div
 														initial={{ opacity: 0, y: 10 }}
 														animate={{ opacity: 1, y: 0 }}
-														transition={{ duration: 0.3, delay: 0.3 }}
+														transition={{ duration: 0.3, delay: 0.2 }}
 													>
-														<Label htmlFor="country" className="text-sm font-medium">
-															Country
+														<Label htmlFor="email" className="text-sm font-medium">
+															Email Address <span className="text-red-500">*</span>
 														</Label>
 														<Input
-															id="country"
-															value={formData.country}
-															onChange={(e) => handleInputChange('country', e.target.value)}
-															className="mt-2 rounded-full border-border/50 h-12 bg-background/30 backdrop-blur-sm text-muted-foreground"
+															id="email"
+															type="email"
+															placeholder="your.email@example.com"
+															className={`mt-2 rounded-full border-border/50 h-12 bg-background/50 backdrop-blur-sm ${
+																fieldErrors.email ? 'border-red-500 ring-2 ring-red-500/20' : ''
+															}`}
+															required
+															value={formData.email}
+															onChange={(e) => handleInputChange('email', e.target.value)}
 														/>
+														{fieldErrors.email && (
+															<p className="text-red-500 text-sm mt-1">
+																{!formData.email.trim() ? 'Email is required' : 'Please enter a valid email address'}
+															</p>
+														)}
 													</motion.div>
 													<motion.div
-														initial={{ opacity: 0, x: -10 }}
-														animate={{ opacity: 1, x: 0 }}
-														transition={{ duration: 0.3, delay: 0.3 }}
-														className="relative"
+														initial={{ opacity: 0, y: 10 }}
+														animate={{ opacity: 1, y: 0 }}
+														transition={{ duration: 0.3, delay: 0.25 }}
 													>
-														<Label htmlFor="university">University</Label>
-														<div className="relative">
-															<Input
-																type="text"
-																id="university"
-																name="university"
-																value={formData.university}
-																onChange={handleUniversityChange}
-																placeholder="Search for your University..."
-																className={`w-full h-12 mt-2 rounded-full border-border/50 bg-background/50 backdrop-blur-sm ${fieldErrors.university ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-																autoComplete="off"
-																ref={universityInputRef}
-																onFocus={() => setShowUniversities(true)}
-																onBlur={() => setTimeout(() => setShowUniversities(false), 150)}
-															/>
-															{isSearching && (
-																<div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-																	<Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-																</div>
-															)}
-														</div>
-														{showUniversities && (
-															<div className="absolute z-10 w-full mt-1 bg-background border rounded-xl shadow-lg max-h-60 overflow-auto transition-all duration-200">
-																{universities.length > 0 && !formData.isManualUniversity ? (
-																	universities.map((uni) => (
-																		<div
-																			key={uni.id || uni.name}
-																			className="px-4 py-2 hover:bg-muted cursor-pointer rounded-xl"
-																			onMouseDown={() => handleUniversitySelect(uni)}
-																		>
-																			<div className="font-medium">{uni.name || "Unknown University"}</div>
-																			<div className="text-sm text-muted-foreground">{uni.city || ""}, {uni.state || ""}</div>
-																		</div>
-																	))
-																) : (!isSearching && !formData.isManualUniversity && formData.university.trim().length > 0) ? (
-																	<div
-																		className="px-4 py-2 text-muted-foreground cursor-pointer hover:bg-muted rounded-xl"
-																		onMouseDown={() => {
-																			setFormData(prev => ({ ...prev, university: prev.university, isManualUniversity: true }));
-																			setShowUniversities(false);
-																		}}
-																	>
-																		Not found? <span className="underline">Click to add manually</span>
-																	</div>
-																) : null}
-															</div>
-														)}
-														{fieldErrors.university && (
-															<motion.p
-																initial={{ opacity: 0, y: -10 }}
-																animate={{ opacity: 1, y: 0 }}
-																className="text-sm text-red-500 mt-1"
-															>
-																{fieldErrors.university}
-															</motion.p>
-														)}
+														<Label htmlFor="referralCode" className="text-sm font-medium">
+															Referral Code (if any)
+														</Label>
+														<Input
+															id="referralCode"
+															placeholder="Enter referral code (optional)"
+															className="mt-2 rounded-full border-border/50 h-12 bg-background/50 backdrop-blur-sm"
+															value={formData.referralCode}
+															onChange={(e) => handleInputChange('referralCode', e.target.value)}
+														/>
 													</motion.div>
 												</div>
 
@@ -667,16 +638,25 @@ export default function StudentRegisterPage() {
 															Total Funds Requested (USD)
 														</Label>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'funds-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'funds-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('funds-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		Tell donors the funding gap: total tuition minus what you can cover yourself or through other aid.
@@ -722,16 +702,25 @@ export default function StudentRegisterPage() {
 															Quick Bio
 														</Label>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'bio-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'bio-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('bio-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		<span className="font-medium">Example:</span><br />
@@ -767,16 +756,25 @@ export default function StudentRegisterPage() {
 															Past
 														</Label>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'past-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'past-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('past-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		<span className="font-medium">Example:</span><br />
@@ -812,16 +810,25 @@ export default function StudentRegisterPage() {
 															Present
 														</Label>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'present-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'present-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('present-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		<span className="font-medium">Example:</span><br />
@@ -857,16 +864,25 @@ export default function StudentRegisterPage() {
 															Future
 														</Label>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'future-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'future-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('future-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		<span className="font-medium">Example:</span><br />
@@ -902,16 +918,25 @@ export default function StudentRegisterPage() {
 															Misc
 														</Label>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'misc-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'misc-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('misc-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[400px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		<span className="font-medium">Example:</span><br />
@@ -944,16 +969,25 @@ export default function StudentRegisterPage() {
 													<div className="flex items-center gap-2 mb-4">
 														<CardTitle className="text-2xl font-light">Social Links</CardTitle>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'social-links' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'social-links' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('social-links') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		These links appear on your public page. Add only profiles you're proud of; you can skip or remove them anytime.
@@ -1058,16 +1092,25 @@ export default function StudentRegisterPage() {
 															Wallet address (Solana compatible)
 														</Label>
 														<TooltipProvider>
-															<Tooltip delayDuration={200}>
+															<Tooltip
+																delayDuration={isMobile ? 0 : 200}
+																open={isMobile ? openTooltip === 'wallet-info' : undefined}
+																onOpenChange={isMobile ? (open) => setOpenTooltip(open ? 'wallet-info' : null) : undefined}
+															>
 																<TooltipTrigger asChild>
-																	<Button variant="ghost" size="icon" className="p-0 h-auto">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		className="p-0 h-auto"
+																		onClick={isMobile ? () => handleTooltipToggle('wallet-info') : undefined}
+																	>
 																		<Info className="h-4 w-4 text-muted-foreground" />
 																	</Button>
 																</TooltipTrigger>
-																<TooltipContent 
-																	side="right" 
-																	align="center" 
-																	className="max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border"
+																<TooltipContent
+																	side={isMobile ? 'bottom' : 'right'}
+																	align="center"
+																	className={isMobile ? 'custom-mobile-tooltip max-w-[90vw] mt-2 p-4 bg-card shadow-lg rounded-xl border border-border text-center' : 'max-w-[300px] p-4 bg-card shadow-lg rounded-xl border border-border'}
 																>
 																	<p className="text-sm text-muted-foreground leading-relaxed">
 																		A wallet address is like a digital account number. Use one that can hold USDC on Solana.
@@ -1140,18 +1183,18 @@ export default function StudentRegisterPage() {
 								</AnimatePresence>
 
 								{/* Navigation Buttons */}
-								<div className="flex justify-between pt-8 border-t border-border/50">
+								<div className="flex flex-col-reverse md:flex-row md:justify-between pt-8 border-t border-border/50 gap-4 md:gap-0">
 									<Button
 										variant="outline"
 										onClick={prevStep}
 										disabled={currentStep === 1}
-										className="rounded-full border-border/50 hover:bg-background/80 backdrop-blur-sm px-6 transition-all duration-300"
+										className="rounded-full border-border/50 hover:bg-background/80 backdrop-blur-sm px-6 transition-all duration-300 w-full md:w-auto"
 									>
 										<ArrowLeft className="mr-2 h-4 w-4" />
 										Previous
 									</Button>
 
-									<div className="flex flex-col items-end gap-2">
+									<div className="flex flex-col items-end gap-2 w-full md:w-auto">
 										{currentStep === 1 && (fieldErrors.fullName || fieldErrors.email) && (
 											<p className="text-red-500 text-sm">
 												{fieldErrors.fullName && fieldErrors.email 
@@ -1164,7 +1207,7 @@ export default function StudentRegisterPage() {
 										{currentStep < totalSteps ? (
 											<Button 
 												onClick={nextStep} 
-												className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+												className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full md:w-auto"
 											>
 												Next
 												<ArrowRight className="ml-2 h-4 w-4" />
@@ -1173,7 +1216,7 @@ export default function StudentRegisterPage() {
 											<Button 
 												onClick={handleSubmit}
 												disabled={isSubmitting}
-												className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" 
+												className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none w-full md:w-auto" 
 											>
 												{isSubmitting ? 'Submitting...' : 'Submit Application'}
 											</Button>

@@ -12,20 +12,18 @@ const studentProfileSchema = z.object({
   program: z.string().optional(),
   degreeLevel: z.enum(["undergraduate", "graduate", "phd"]).optional(),
   fundsRequested: z.number().positive().optional(),
-  
+  referralCode: z.string().optional(), // <-- add this
   // Step 2: Your Story
   quickBio: z.string().max(80).optional(),
   past: z.string().max(300).optional(),
   present: z.string().max(300).optional(),
   future: z.string().max(300).optional(),
   misc: z.string().max(300).optional(),
-  
   // Step 3: Social Links
   socialLinks: z.array(z.object({
     platform: z.string(),
     url: z.string().optional()
   })).optional(),
-  
   // Step 4: Wallet Setup
   walletAddress: z.string().optional()
 })
@@ -59,6 +57,7 @@ export async function POST(request: NextRequest) {
         misc: validatedData.misc,
         socialLinks: filteredSocialLinks,
         walletAddress: validatedData.walletAddress,
+        referralCode: validatedData.referralCode, // <-- add this
         status: 'pending'
       }
     })

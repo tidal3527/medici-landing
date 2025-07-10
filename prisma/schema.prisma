@@ -34,6 +34,8 @@ model StudentProfile {
   
   // Wallet Setup (Step 4)
   walletAddress String?
+  referralCode  String?
+  photo         String?
   
   // Status tracking
   status        String   @default("pending") // pending, verified, approved, rejected
