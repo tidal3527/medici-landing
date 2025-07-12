@@ -518,10 +518,12 @@ export default function HomePage() {
           </div>
         </section>
         {/* Subscribe for Updates Section (below FAQ) */}
-        <section className="py-12 flex flex-col items-center justify-center bg-background/70">
-          <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent text-center">Subscribe for Updates</h2>
-          <p className="text-neutral-700 dark:text-neutral-200 text-lg mb-6 text-center max-w-xl">Get the latest news and platform updates directly to your inbox.</p>
-          <SubscribeForm />
+        <section className="py-12 bg-background/70">
+          <div className="container mx-auto px-4 flex flex-col items-center justify-center">
+            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent text-center">Subscribe for Updates</h2>
+            <p className="text-neutral-700 dark:text-neutral-200 text-lg mb-6 text-center max-w-xl">Get the latest news and platform updates directly to your inbox.</p>
+            <SubscribeForm />
+          </div>
         </section>
       </div>
     </Layout>
