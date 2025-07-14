@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -239,6 +239,108 @@ export default function HomePage() {
           </motion.div>
         </section>
 
+        {/* How It Works Section */}
+        <section id="how-it-works" className="py-16 relative overflow-hidden" ref={howItWorksRef}>
+          <div className="container mx-auto">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              {/* Background glow */}
+              <div 
+                className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-purple-500/5 to-transparent rounded-3xl"
+                style={{
+                  filter: 'blur(40px)',
+                  transform: 'translateY(-20%)'
+                }}
+              />
+              
+              <div className="relative text-center max-w-4xl mx-auto">
+                <motion.div
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                  viewport={{ once: true }}
+                  className="mb-4 inline-block"
+                >
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mx-auto">
+                    <span className="text-white text-2xl">✦</span>
+                  </div>
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="text-5xl md:text-6xl font-bold mb-6"
+                >
+                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    How Medici Works
+                  </span>
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="text-xl md:text-2xl text-neutral-800 dark:text-neutral-200 max-w-3xl mx-auto leading-relaxed"
+                >
+                   
+                </motion.p>
+              </div>
+            </motion.div>
+
+            <div className="max-w-7xl mx-auto mt-16">
+              <Card className="p-8 backdrop-blur-xl bg-gradient-to-br from-background/50 via-muted/50 to-background/50 border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  {/* Left side - Text content */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className="text-left space-y-6"
+                  >
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                      Back a Student in a Few Clicks
+                    </h3>
+                    <p className="text-lg text-neutral-800 dark:text-neutral-200 leading-relaxed">
+                      Browse through student profiles and choose someone you want to fund. Click "Back This Student", enter your preferred amount and approve the transaction through your crypto wallet.
+                    </p>
+                    <p className="text-lg text-neutral-800 dark:text-neutral-200 leading-relaxed">
+                      Funds reach the student's wallet instantly, all recorded on the blockchain. No logins. No intermediaries. Secure and traceable.
+                    </p>
+                  </motion.div>
+
+                  {/* Right side - Animated GIF in Card */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    viewport={{ once: true }}
+                  >
+                    <Card className="overflow-hidden bg-white dark:bg-black border-border/50 shadow-2xl">
+                      <div className="relative">
+                        <img
+                          src="/howitworks.gif"
+                          alt="How Medici Works"
+                          className="w-full h-auto"
+                          style={{ display: 'block' }}
+                        />
+                      </div>
+                    </Card>
+                  </motion.div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* Why Choose Medici Section */}
         <section className="py-16 relative overflow-hidden">
           {/* Animated Background */}
@@ -355,108 +457,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* How It Works Section */}
-        <section id="how-it-works" className="py-16 relative overflow-hidden" ref={howItWorksRef}>
-          <div className="container mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              {/* Background glow */}
-              <div 
-                className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-purple-500/5 to-transparent rounded-3xl"
-                style={{
-                  filter: 'blur(40px)',
-                  transform: 'translateY(-20%)'
-                }}
-              />
-              
-              <div className="relative text-center max-w-4xl mx-auto">
-                <motion.div
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, type: "spring" }}
-                  viewport={{ once: true }}
-                  className="mb-4 inline-block"
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mx-auto">
-                    <span className="text-white text-2xl">✦</span>
-                  </div>
-                </motion.div>
-
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="text-5xl md:text-6xl font-bold mb-6"
-                >
-                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    How Medici Works
-                  </span>
-                </motion.h2>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  viewport={{ once: true }}
-                  className="text-xl md:text-2xl text-neutral-800 dark:text-neutral-200 max-w-3xl mx-auto leading-relaxed"
-                >
-                   
-                </motion.p>
-              </div>
-            </motion.div>
-
-            <div className="max-w-7xl mx-auto mt-16">
-              <Card className="p-8 backdrop-blur-xl bg-gradient-to-br from-background/50 via-muted/50 to-background/50 border-border/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                  {/* Left side - Text content */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    viewport={{ once: true }}
-                    className="text-left space-y-6"
-                  >
-                    <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                      Back a Student in a Few Clicks
-                    </h3>
-                    <p className="text-lg text-neutral-800 dark:text-neutral-200 leading-relaxed">
-                      Browse through student profiles and choose someone you want to fund. Click "Back This Student", enter your preferred amount and approve the transaction through your crypto wallet.
-                    </p>
-                    <p className="text-lg text-neutral-800 dark:text-neutral-200 leading-relaxed">
-                      Funds reach the student's wallet instantly, all recorded on the blockchain. No logins. No intermediaries. Secure and traceable.
-                    </p>
-                  </motion.div>
-
-                  {/* Right side - Animated GIF in Card */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    viewport={{ once: true }}
-                  >
-                    <Card className="overflow-hidden bg-white dark:bg-black border-border/50 shadow-2xl">
-                      <div className="relative">
-                        <img
-                          src="/howitworks.gif"
-                          alt="How Medici Works"
-                          className="w-full h-auto"
-                          style={{ display: 'block' }}
-                        />
-                      </div>
-                    </Card>
-                  </motion.div>
-                </div>
-              </Card>
-            </div>
-          </div>
-        </section>
-
         {/* FAQ Section */}
         <section id="faq" className="py-16 px-4 relative overflow-hidden">
           {/* Background glow (dark, semi-transparent, blurred) */}
@@ -518,6 +518,7 @@ export default function HomePage() {
           </div>
         </section>
         {/* Subscribe for Updates Section (below FAQ) */}
+        <MediciAsSeenOnX />
         <section className="py-12 bg-background/70">
           <div className="container mx-auto px-4 flex flex-col items-center justify-center">
             <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent text-center">Subscribe for Updates</h2>
@@ -610,4 +611,102 @@ function SubscribeForm() {
       )}
     </form>
   )
+}
+
+function MediciAsSeenOnX() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Theme detection (Tailwind/Next.js)
+  const getTheme = () =>
+    typeof window !== "undefined" && document.documentElement.classList.contains("dark") ? "dark" : "light";
+  const [theme, setTheme] = React.useState(getTheme());
+
+  const TWEET_IDS: string[] = [
+    "1938817100853690623",
+    "1938910480581698016",
+    "1938981400130265374",
+    "1939905629692600793",
+    "1940285460078895143",
+    "1940473700840812865",
+    "1940667414443970950"
+  ];
+
+  // Listen for theme changes
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const observer = new MutationObserver(() => {
+      setTheme(getTheme());
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    // Only load the script once
+    if (!(window as any).twttr) {
+      const script = document.createElement("script");
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      script.onload = () => {
+        (window as any).twttr?.widgets?.load(containerRef.current);
+      };
+      document.body.appendChild(script);
+    } else {
+      (window as any).twttr?.widgets?.load(containerRef.current);
+    }
+  }, [theme]);
+
+  // Duplicate the tweets for seamless animation
+  const tweets = (
+    <>
+      {TWEET_IDS.map((tweetId: string) => (
+        <div
+          key={tweetId}
+          className="min-w-[400px] max-w-xs px-2 flex-shrink-0 flex items-center justify-center"
+        >
+          <blockquote
+            className="twitter-tweet"
+            data-theme={theme}
+          >
+            <a href={`https://twitter.com/Medici_ac/status/${tweetId}`}>Loading tweet…</a>
+          </blockquote>
+        </div>
+      ))}
+    </>
+  );
+
+  return (
+    <section className="py-16 bg-background/80 relative">
+      <div className="container mx-auto px-4">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          Medici: As Seen on X
+        </h2>
+        <p className="text-lg text-neutral-700 dark:text-neutral-200 text-center mb-10">
+          What we're saying on our official channel – @Medici_ac
+        </p>
+        <div className="relative overflow-x-hidden">
+          {/* Scrolling tweets */}
+          <div
+            ref={containerRef}
+            className="flex gap-8 animate-scroll-x whitespace-nowrap will-change-transform"
+            style={{
+              animation: "scroll-x 80s linear infinite"
+            }}
+          >
+            {tweets}
+            {tweets}
+          </div>
+          <style jsx>{`
+            @keyframes scroll-x {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .animate-scroll-x {
+              animation: scroll-x 80s linear infinite;
+            }
+          `}</style>
+        </div>
+      </div>
+    </section>
+  );
 }
