@@ -125,7 +125,23 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+            {/* QR Scan Tracker */}
+  <script
+    dangerouslySetInnerHTML={{
+      __html: `
+        (function () {
+          const params = new URLSearchParams(window.location.search);
+          const source = params.get("source");
+          if (source && window.gtag) {
+            window.gtag('event', 'qr_scan', {
+              source_location: source
+            });
+          }
+        })();
+      `,
+    }}
+  />
+  {children}
         </ThemeProvider>
       </body>
     </html>
