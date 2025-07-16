@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Twitter, Mail } from "lucide-react"
+import { Instagram } from "lucide-react"
 
 export function Footer() {
   return (
@@ -78,6 +79,29 @@ export function Footer() {
                 >
                   <Mail className="h-4 w-4 mr-2" />
                   Email
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/medici_ac"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors inline-flex items-center"
+                >
+                  <Instagram className="h-4 w-4 mr-2" />
+                  Instagram
+                </a>
+              </li>
+              {/* Add TikTok link with inline SVG icon */}
+              <li>
+                <a
+                  href="https://www.tiktok.com/@medici_ac"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors inline-flex items-center"
+                >
+                  <Image src="/tiktok.png" alt="TikTok" width={16} height={16} className="h-4 w-4 mr-2" />
+                  TikTok
                 </a>
               </li>
             </ul>
