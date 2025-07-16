@@ -100,7 +100,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors inline-flex items-center"
                 >
-                  <Image src="/tiktok.png" alt="TikTok" width={16} height={16} className="h-4 w-4 mr-2" />
+                  <Image src="/tiktok.png" alt="TikTok" width={16} height={16} className="h-4 w-4 mr-2 dark:invert" />
                   TikTok
                 </a>
               </li>
