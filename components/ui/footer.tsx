@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Twitter, Mail } from "lucide-react"
+import { Instagram } from "lucide-react"
 
 export function Footer() {
   return (
@@ -9,7 +10,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Description */}
           <div className="space-y-6">
-            <Link href="https://www.medici.ac" className="flex items-center -ml-3">
+            <Link href="/" className="flex items-center -ml-3">
               <Image
                 src="/logowithtext.svg"
                 alt="Medici"
@@ -29,27 +30,27 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4">Platform</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="https://www.medici.ac/how-it-works" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
+                <Link href="/#how-it-works" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link href="https://www.medici.ac/about" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
+                <Link href="/about" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="https://www.medici.ac/faq" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
+                <Link href="/#faq" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="https://www.medici.ac/privacypolicy" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
+                <Link href="/privacypolicy" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   Privacy Policy
                 </Link>
               </li>
                             <li>
-                <Link href="https://www.medici.ac/careers" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
+                <Link href="/careers" className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors">
                   Careers
                 </Link>
               </li>
@@ -78,6 +79,29 @@ export function Footer() {
                 >
                   <Mail className="h-4 w-4 mr-2" />
                   Email
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/medici_ac"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors inline-flex items-center"
+                >
+                  <Instagram className="h-4 w-4 mr-2" />
+                  Instagram
+                </a>
+              </li>
+              {/* Add TikTok link with inline SVG icon */}
+              <li>
+                <a
+                  href="https://www.tiktok.com/@medici_ac"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-neutral-800 dark:text-neutral-200 hover:text-foreground transition-colors inline-flex items-center"
+                >
+                  <Image src="/tiktok.png" alt="TikTok" width={16} height={16} className="h-4 w-4 mr-2 dark:invert" />
+                  TikTok
                 </a>
               </li>
             </ul>
